@@ -1,16 +1,16 @@
-import talib
 import numpy as np
 import tushare as ts 
 import pandas as pd
 import os
 import re
+import collections
 import chardet
 from multiprocessing import Pool
 import logging
 logging.basicConfig(filename='logger.log', level=logging.INFO)
 
 
-def get_stock_data(stock: str, start_date: str, end_date: str)->pd.DataFrame:
+def get_stock_data(stock: str, start_date: str, end_date: str):
     """
     获取指定股票指定时间段的历史交易数据
     :param stock: 股票代码
@@ -18,16 +18,36 @@ def get_stock_data(stock: str, start_date: str, end_date: str)->pd.DataFrame:
     :param end_date: 结束日期
     :return: 历史数据DataFrame
     """
-    logging.info(print("Downloading data of {}".format(stock)))
-    df = ts.get_k_data(stock, start=start_date, end=end_date)
-    logging.info(print("Shape of stock df is {}".format(df.shape)))
-    stock_code = df.code.iloc[0]
-    df = df.drop(columns=['code'])
-    df.columns = pd.MultiIndex.from_product([[stock_code], df.columns])
-    return df
+    print(stock)
+    # logging.info(print("Shape of stock df is {}".format(df.shape)))
+    if os.path.exists(r'E:\DX\Ai4Quant\Data\{}.csv'.format(stock)):
+        print("File already exists")
+        return None
+    else:
+        try:
+            df = ts.get_k_data(stock, start=start_date, end=end_date)
+            stock_code = df.code.iloc[0]
+            df.index = df.iloc[1:, 0]
+            df = df.drop(labels=['code', 'date'], axis=1)
+            df.columns = pd.MultiIndex.from_product([[stock_code], df.columns])
+            df.to_csv(r'E:\DX\Ai4Quant\Data\{}.csv'.format(stock))
+            return df
+        except AttributeError:
+            print(stock)
+            return None
 
 
-def get_universe_data(universe: list, start_date: str, end_date: str)->pd.DataFrame:
+def get_universe()->pd.DataFrame:
+    """
+    Get universe of today hs300s
+    :return: list
+    """
+    today_universe = ts.get_hs300s()
+    top_universe = today_universe[today_universe['weight'] > today_universe['weight'].quantile(0.8)]
+    return top_universe
+
+
+def get_universe_data(universe: list, start_date: str, end_date: str)->list:
     """
     多进程获取所有股票历史数据
     :param universe: 股票池列表
@@ -35,11 +55,44 @@ def get_universe_data(universe: list, start_date: str, end_date: str)->pd.DataFr
     :param end_date: 结束日期
     :return: 历史数据DataFrame
     """
-    pool = Pool(4)
-    params = zip(universe, [start_date]*len(universe), [end_date]*len(universe))
-    result = pool.starmap(get_stock_data, params)
-    result_df = pd.concat(result, axis=0)
-    return result_df
+    try:
+        pool = Pool(6)
+        params = zip(universe, [start_date]*len(universe), [end_date]*len(universe))
+        result = pool.starmap(get_stock_data, params)
+        result = list(filter(None, result))
+        result_df = pd.concat(result, axis=1)
+        # result_df.index = result_df.iloc[:, 0]
+        # result_df = result_df.drop(labels='date', axis=1, level=1)
+        return result
+    except ValueError:
+        print("All stock data has been downloaded, load local data")
+        local_root_path = r'E:\DX\Ai4Quant\Data'
+        result = list()
+        for root, dirs, files in os.walk(local_root_path):
+            for file in files:
+                file_path = os.path.join(local_root_path, file)
+                df = pd.read_csv(file_path)
+                result.append(df)
+        return result
+
+
+def feature_label_split(raw_data: list)->tuple:
+    """
+    Split feature and label dataframe,
+    :return:
+    """
+    # raw_data = self.__get_raw_data()
+    X = np.array([item.iloc[0:10, :].values for item in raw_data])
+    y = np.array([item.iloc[11, (slice(None), 'close')] for item in raw_data])
+    return X, y
+
+
+def preprocess_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
+    """
+    Preprocess raw data to factor
+    :param raw_data: DataFrame of exchange data of stock from choosen universe
+    :return: processed factor
+    """
 
 
 def detect_encode_style(file_path):
@@ -76,5 +129,9 @@ def load_data(parent_path):
 
 
 if __name__ == "__main__":
-    res_df = get_stock_data('600000', '2018-01-04', '2018-05-24')
+    universe = get_universe()
+    universe_code = list(universe.code)
+    print(universe_code)
+    res = get_universe_data(universe_code, start_date='2018-01-03', end_date='2018-05-26')
+    # re = get_stock_data('600000', start_date='2018-01-03', end_date='2018-05-26')
     print(None)
