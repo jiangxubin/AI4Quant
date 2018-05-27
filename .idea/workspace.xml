@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ai4Quant/util.py" afterPath="$PROJECT_DIR$/Ai4Quant/util.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Regression.py" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
