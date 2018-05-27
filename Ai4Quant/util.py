@@ -1,6 +1,7 @@
 import numpy as np
 import tushare as ts 
 import pandas as pd
+from keras.utils import to_categorical
 import os
 import re
 import collections
@@ -18,19 +19,20 @@ def get_stock_data(stock: str, start_date: str, end_date: str):
     :param end_date: 结束日期
     :return: 历史数据DataFrame
     """
-    print(stock)
     # logging.info(print("Shape of stock df is {}".format(df.shape)))
-    if os.path.exists(r'E:\DX\Ai4Quant\Data\{}.csv'.format(stock)):
-        print("File already exists")
+    if os.path.exists(r'E:\DX\Data\{}.csv'.format(stock)):
+        print("{} File already exists".format(stock))
         return None
     else:
         try:
+            # print("Begin download")
             df = ts.get_k_data(stock, start=start_date, end=end_date)
-            stock_code = df.code.iloc[0]
-            df.index = df.iloc[1:, 0]
+            stock_code = df.code.values[0]
+            df.index = df.iloc[:, 0]
+            del df.index.name
             df = df.drop(labels=['code', 'date'], axis=1)
-            df.columns = pd.MultiIndex.from_product([[stock_code], df.columns])
-            df.to_csv(r'E:\DX\Ai4Quant\Data\{}.csv'.format(stock))
+            df.columns = pd.MultiIndex.from_product([[stock_code], df.columns], names=['code', 'data'])
+            df.to_csv(r'E:\DX\Data\{}.csv'.format(stock))
             return df
         except AttributeError:
             print(stock)
@@ -43,7 +45,7 @@ def get_universe()->pd.DataFrame:
     :return: list
     """
     today_universe = ts.get_hs300s()
-    top_universe = today_universe[today_universe['weight'] > today_universe['weight'].quantile(0.8)]
+    top_universe = today_universe[today_universe['weight'] > today_universe['weight'].quantile(0.6)]
     return top_universe
 
 
@@ -66,12 +68,13 @@ def get_universe_data(universe: list, start_date: str, end_date: str)->list:
         return result
     except ValueError:
         print("All stock data has been downloaded, load local data")
-        local_root_path = r'E:\DX\Ai4Quant\Data'
+        local_root_path = r'E:\DX\Data'
         result = list()
         for root, dirs, files in os.walk(local_root_path):
             for file in files:
                 file_path = os.path.join(local_root_path, file)
-                df = pd.read_csv(file_path)
+                # print(file_path)
+                df = pd.read_csv(file_path, index_col=0, header=[0, 1])
                 result.append(df)
         return result
 
@@ -82,9 +85,12 @@ def feature_label_split(raw_data: list)->tuple:
     :return:
     """
     # raw_data = self.__get_raw_data()
-    X = np.array([item.iloc[0:10, :].values for item in raw_data])
-    y = np.array([item.iloc[11, (slice(None), 'close')] for item in raw_data])
-    return X, y
+    X = np.array([item.values[0:10, :] for item in raw_data])
+    y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data])
+    y = (y_all>np.mean(y_all))*1
+    encoded_y = to_categorical(y, num_classes=2)
+    print(encoded_y)
+    return X, encoded_y
 
 
 def preprocess_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
@@ -130,8 +136,6 @@ def load_data(parent_path):
 
 if __name__ == "__main__":
     universe = get_universe()
-    universe_code = list(universe.code)
-    print(universe_code)
-    res = get_universe_data(universe_code, start_date='2018-01-03', end_date='2018-05-26')
+    res = get_universe_data(list(universe.code), start_date='2018-01-03', end_date='2018-05-26')
     # re = get_stock_data('600000', start_date='2018-01-03', end_date='2018-05-26')
     print(None)

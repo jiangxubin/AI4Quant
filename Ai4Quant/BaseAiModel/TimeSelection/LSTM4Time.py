@@ -1,4 +1,4 @@
-from keras.layers import LSTM, Dense,Activation, Input, Dropout
+from keras.layers import LSTM, Dense, Activation, Input, Dropout
 from keras.models import Model
 import tushare as ts
 import logging
@@ -10,8 +10,8 @@ from sklearn.preprocessing import StandardScaler
 
 batch_size = 16
 lstm_time_step = 10
-step_vector_size = 8
-dropout_ratio = 0.8
+step_vector_size = 5
+dropout_ratio = 0.5
 
 
 class LSTM4Regression:
@@ -25,13 +25,14 @@ class LSTM4Regression:
         self.all_df = []
         self.model = None
 
-    def __get_raw_data(self)->pd.DataFrame:
+    def get_feature_label(self)->tuple:
         """
-        Get raw data of universe
+        Get X for feature and y for label
         :return: DataFrame of raw data
         """
-        raw_data = util.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)
-        return raw_data
+        raw_data = util.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
+        X, y = util.feature_label_split(raw_data)
+        return X, y
 
     def __process(self)->pd.DataFrame:
         """
@@ -44,17 +45,18 @@ class LSTM4Regression:
         return feature
 
     def __build_model(self):
-        X = Input(shape=(lstm_time_step, step_vector_size), batch_shape=(64, ))
-        X = LSTM(lstm_time_step, return_state=False, return_sequence=True)(X)
+        stock_feature = Input(shape=(lstm_time_step, step_vector_size))
+        X = LSTM(lstm_time_step)(stock_feature)
         X = Dropout(rate=dropout_ratio)(X)
-        X = LSTM(return_state=True, return_sequences=True)(X)
-        X = Dense(1)(X)
+        # X = LSTM(lstm_time_step)(X)
+        X = Dense(2)(X)
         y = Activation('sigmoid')(X)
 
-        Model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return Model
+        model = Model(inputs=[stock_feature], outputs=[y])
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        return model
 
-    def fit(self, X:pd.DataFrame, y:pd.DataFrame):
+    def fit(self, X:np.array, y:np.array):
         """
         Train the LSTM model defined bove
         :param X: DataFrame of Feature
@@ -62,11 +64,13 @@ class LSTM4Regression:
         :return: None
         """
         self.model = self.__build_model()
-        self.model.fit(X, y, batch_size=batch_size, epochs=10)
+        self.model.fit(X, y, batch_size=batch_size, epochs=40)
+
+    def eva
 
 
 if __name__ == "__main__":
-    spe_universe = LSTM4Regression.build_universe()
-    # logging.info(print(spe_universe.code))
-    raw_data = util.get_universe_data(spe_universe, '2018-01-04', '2018-05-24')
-    X, y = util.feature_label_split(raw_data)
+    spe_universe = util.get_universe()
+    strategy = LSTM4Regression(list(spe_universe.code), start_date='2018-01-03', end_date='2018-05-26')
+    X, y = strategy.get_feature_label()
+    strategy.fit(X, y)
