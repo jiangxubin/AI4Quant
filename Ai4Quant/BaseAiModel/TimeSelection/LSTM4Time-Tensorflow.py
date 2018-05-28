@@ -1,10 +1,14 @@
-from keras.layers import LSTM, Dense, Activation, Input, Dropout
-from keras.models import Model
+# from keras.layers import LSTM, Dense, Activation, Input, Dropout
+# from keras.models import Model
 import pandas as pd
 import numpy as np
 import util
 from sklearn.preprocessing import StandardScaler
 import sys
+import tensorflow.contrib.eager as tfe
+import tensorflow as tf
+tf.enable_eager_execution()
+
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -37,56 +41,22 @@ class LSTM4Regression:
         self.all_df = []
         self.model = None
 
-    def get_feature_label(self)->tuple:
+    def build_dataset(self):
         """
         Get X for feature and y for label
         :return: DataFrame of raw data
         """
+        # Create Dataset
         raw_data = util.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
         X, y = util.feature_label_split(raw_data)
-        return X, y
-
-    def __process(self)->pd.DataFrame:
-        """
-        Preproess raw data to standard factor
-        :return: Nature factor
-        """
-        raw_data = self.__get_raw_data()
-        scaler = StandardScaler()
-        feature = scaler.fit_transform(raw_data)
-        return feature
-
-    def __build_model(self):
-        """
-        Build the LSTM model for traning with keras
-        :return: model
-        """
-        stock_feature = Input(shape=(lstm_time_step, step_vector_size))
-        X = LSTM(lstm_time_step, return_sequences=True)(stock_feature)
-        X = Dropout(rate=dropout_ratio)(X)
-        X = LSTM(lstm_time_step, return_sequences=False)(X)
-        X = Dropout(rate=dropout_ratio)(X)
-        X = Dense(2)(X)
-        y = Activation('sigmoid')(X)
-
-        model = Model(inputs=[stock_feature], outputs=[y])
-        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return model
-
-    def fit(self, X: np.array, y: np.array):
-        """
-        Train the LSTM model defined bove
-        :param X: DataFrame of Feature
-        :param y: DataFrame of label
-        :return: None
-        """
-        self.model = self.__build_model()
-        self.model.fit(X, y, batch_size=batch_size, epochs=100)
+        dset = tf.data.Dataset.from_tensor_slices((X, y))
+        stock_sequence_dataset = tf.data.Dataset.from_tensor_slices((X, y))
+        for item in dset:
+            print(type(item), type(item[0]), len(item), item[0].shape)
+        #Create  iterator
 
 
 if __name__ == "__main__":
-    # print(sys.path[0])
     spe_universe = util.get_universe()
     strategy = LSTM4Regression(list(spe_universe.code), start_date='2018-01-03', end_date='2018-05-26')
-    X, y = strategy.get_feature_label()
-    strategy.fit(X, y)
+    a = strategy.build_dataset()

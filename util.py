@@ -3,12 +3,18 @@ import tushare as ts
 import pandas as pd
 from keras.utils import to_categorical
 import os
+import sys
 import re
 import collections
 import chardet
 from multiprocessing import Pool
 import logging
 logging.basicConfig(filename='logger.log', level=logging.INFO)
+
+
+# project_path = os.path.abspath('util.py').split(os.sep)[:-1]
+# project_path = os.sep.join(project_path)
+project_path = r'E:\\DX'
 
 
 def get_stock_data(stock: str, start_date: str, end_date: str):
@@ -19,8 +25,9 @@ def get_stock_data(stock: str, start_date: str, end_date: str):
     :param end_date: 结束日期
     :return: 历史数据DataFrame
     """
-    # logging.info(print("Shape of stock df is {}".format(df.shape)))
-    if os.path.exists(r'E:\DX\Data\{}.csv'.format(stock)):
+    # print(project_path)
+    # print(sys.path[0])
+    if os.path.exists(os.path.join(project_path, r'Data\{}.csv'.format(stock))):
         print("{} File already exists".format(stock))
         return None
     else:
@@ -32,7 +39,7 @@ def get_stock_data(stock: str, start_date: str, end_date: str):
             del df.index.name
             df = df.drop(labels=['code', 'date'], axis=1)
             df.columns = pd.MultiIndex.from_product([[stock_code], df.columns], names=['code', 'data'])
-            df.to_csv(r'E:\DX\Data\{}.csv'.format(stock))
+            df.to_csv(os.path.join(project_path, r'Data\{}.csv'.format(stock)))
             return df
         except AttributeError:
             print(stock)
@@ -68,7 +75,7 @@ def get_universe_data(universe: list, start_date: str, end_date: str)->list:
         return result
     except ValueError:
         print("All stock data has been downloaded, load local data")
-        local_root_path = r'E:\DX\Data'
+        local_root_path = os.path.join(project_path, r'Data')
         result = list()
         for root, dirs, files in os.walk(local_root_path):
             for file in files:
@@ -81,16 +88,33 @@ def get_universe_data(universe: list, start_date: str, end_date: str)->list:
 
 def feature_label_split(raw_data: list)->tuple:
     """
-    Split feature and label dataframe,
+    Split feature and label from raw data, for the use of Keras model
     :return:
     """
     # raw_data = self.__get_raw_data()
-    X = np.array([item.values[0:10, :] for item in raw_data])
-    y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data])
-    y = (y_all>np.mean(y_all))*1
+    print(raw_data[0].shape)
+    X = np.array([item.values[0:10, :] for item in raw_data if item.shape[0] >= 20])
+    y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data if item.shape[0] >= 20] )
+    y = (y_all > np.mean(y_all))*1
     encoded_y = to_categorical(y, num_classes=2)
-    print(encoded_y)
+    # print(encoded_y)
     return X, encoded_y
+
+
+def feature_label_split_tf(raw_data: list)->tuple:
+    """
+    Split feature and label from raw data, for the use of tensorflow model
+    :return:
+    """
+    # raw_data = self.__get_raw_data()
+    print(raw_data[0].shape)
+    X = np.array([item.values[0:10, :] for item in raw_data if item.shape[0] >= 20])
+    X_T = X.transpose((1, 0, 2))
+    y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data if item.shape[0] >= 20] )
+    y = (y_all > np.mean(y_all))*1
+    encoded_y = to_categorical(y, num_classes=2)
+    return X, X_T, y, encoded_y
+
 
 
 def preprocess_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
@@ -138,4 +162,5 @@ if __name__ == "__main__":
     universe = get_universe()
     res = get_universe_data(list(universe.code), start_date='2018-01-03', end_date='2018-05-26')
     # re = get_stock_data('600000', start_date='2018-01-03', end_date='2018-05-26')
+    X, X_T, y, encoded_y = feature_label_split_tf(res)
     print(None)
