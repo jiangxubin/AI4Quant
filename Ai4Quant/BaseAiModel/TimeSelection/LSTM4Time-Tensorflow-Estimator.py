@@ -5,9 +5,7 @@ import numpy as np
 import util
 from sklearn.preprocessing import StandardScaler
 import sys
-import tensorflow.contrib.eager as tfe
 import tensorflow as tf
-tf.enable_eager_execution()
 
 
 # parser = argparse.ArgumentParser()
@@ -41,20 +39,31 @@ class LSTM4Regression:
         self.all_df = []
         self.model = None
 
-    def build_dataset(self):
+    def get_train_data_fn(self):
         """
         Get X for feature and y for label
         :return: DataFrame of raw data
         """
         # Create Dataset
         raw_data = util.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
-        X, y = util.feature_label_split(raw_data)
-        dset = tf.data.Dataset.from_tensor_slices((X, y))
+        X, y = util.feature_label_split_tf(raw_data)
         stock_sequence_dataset = tf.data.Dataset.from_tensor_slices((X, y))
-        for item in dset:
-            print(type(item), type(item[0]), len(item), item[0].shape)
         #Create  iterator
+        iter = stock_sequence_dataset.make_one_shot_iterator()
+        feature_ele, label_ele = iter.get_next()
+        return feature_ele, label_ele
 
+    def get_test_data_fn(self):
+        """
+        Build data pipline for test data
+        :return: a dict of features and a tensor of labels
+        """
+
+    def build_Estimator(self):
+        """
+        Build estimator to build the LSTM model
+        :return:
+        """
 
 if __name__ == "__main__":
     spe_universe = util.get_universe()

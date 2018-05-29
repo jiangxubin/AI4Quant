@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/DX.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DX.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Origin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Regression.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,11 +19,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="LSTM4Time-Tensorflow.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py">
+      <file leaf-file-name="LSTM4Time.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+            <state relative-caret-position="-82">
+              <caret line="66" column="77" selection-start-line="66" selection-start-column="77" selection-end-line="66" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#64#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LSTM4Time-Tensorflow-Origin.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Origin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="177">
+              <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
               <folding>
                 <element signature="e#100#119#0" expanded="true" />
               </folding>
@@ -34,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="90" column="69" selection-start-line="90" selection-start-column="69" selection-end-line="90" selection-end-column="69" />
+            <state relative-caret-position="116">
+              <caret line="143" column="6" lean-forward="true" selection-start-line="143" selection-start-column="6" selection-end-line="143" selection-end-column="6" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -48,6 +57,14 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>lstm_time_step</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>lstm_units</replace>
+    </replaceStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -56,9 +73,10 @@
       <list>
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Regression.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/util.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py" />
         <option value="$PROJECT_DIR$/util.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Origin.py" />
       </list>
     </option>
   </component>
@@ -71,11 +89,11 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="13" />
-    <option name="y" value="-12" />
-    <option name="width" value="1611" />
-    <option name="height" value="1032" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="211" />
+    <option name="y" value="391" />
+    <option name="width" value="1529" />
+    <option name="height" value="999" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -131,11 +149,11 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\DX\Ai4Quant\BaseAiModel\TimeSelection" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\DX" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\DX\Ai4Quant\BaseAiModel\TimeSelection" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -150,7 +168,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.util ">
+  <component name="RunManager" selected="Python.LSTM4Time">
     <configuration name="LSTM4Regression" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DX" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -183,7 +201,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py" />
+      <option name="SCRIPT_NAME" value="E:\DX\Ai4Quant\BaseAiModel\TimeSelection\LSTM4Time-Tensorflow-Origin.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -254,9 +272,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.LSTM4Time" />
         <item itemvalue="Python.util " />
         <item itemvalue="Python.LSTM4Time-Tensorflow" />
-        <item itemvalue="Python.LSTM4Time" />
         <item itemvalue="Python.LSTM4Regression" />
       </list>
     </recent_temporary>
@@ -284,7 +302,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="141" y="261" width="1019" height="666" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32915717" />
@@ -292,9 +310,9 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32915717" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.39270386" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.43373495" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.51992756" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32915717" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20374708" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19502488" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" weight="0.16549571" />
@@ -336,7 +354,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Origin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1235">
           <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
@@ -492,32 +510,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Eager.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Estimator.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+        <state relative-caret-position="116">
+          <caret line="143" column="6" lean-forward="true" selection-start-line="143" selection-start-column="6" selection-end-line="143" selection-end-column="6" />
           <folding>
-            <element signature="e#100#119#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="-82">
+          <caret line="66" column="77" selection-start-line="66" selection-start-column="77" selection-end-line="66" selection-end-column="77" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Origin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="90" column="69" selection-start-line="90" selection-start-column="69" selection-end-line="90" selection-end-column="69" />
+        <state relative-caret-position="177">
+          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#100#119#0" expanded="true" />
           </folding>
         </state>
       </provider>

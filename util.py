@@ -97,7 +97,6 @@ def feature_label_split(raw_data: list)->tuple:
     y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data if item.shape[0] >= 20] )
     y = (y_all > np.mean(y_all))*1
     encoded_y = to_categorical(y, num_classes=2)
-    # print(encoded_y)
     return X, encoded_y
 
 
@@ -113,8 +112,7 @@ def feature_label_split_tf(raw_data: list)->tuple:
     y_all = np.array([item.loc[item.index[11], (slice(None), 'close')] for item in raw_data if item.shape[0] >= 20] )
     y = (y_all > np.mean(y_all))*1
     encoded_y = to_categorical(y, num_classes=2)
-    return X, X_T, y, encoded_y
-
+    return X_T, encoded_y
 
 
 def preprocess_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
