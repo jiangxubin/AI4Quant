@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import util
 from sklearn.preprocessing import StandardScaler
-import sys
+from sklearn.model_selection import train_test_split
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -20,13 +20,14 @@ hidden_units_1 = 5
 hidden_units_2 = 5
 time_step = 10
 # hidden_units = args.hidden_units
-step_vector_size = 5
+step_vector_size = 6
 # step_vector_size = args.step_vector_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
-epochs = 300
+epochs = 50
 # epochs = args.epochs
-class_num = 2
+class_num = 1
+
 
 class Recurrent4Time:
     def __init__(self, universe: list, start_date: str, end_date: str):
@@ -45,7 +46,7 @@ class Recurrent4Time:
         :return: DataFrame of raw data
         """
         raw_data = util.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
-        X, y = util.FatureEngineering.feature_label_split(raw_data)
+        X, y = util.FatureEngineering.rolling_sampling_regression(raw_data, window=time_step)
         return X, y
 
     def __build_lstm_model(self):
@@ -60,11 +61,11 @@ class Recurrent4Time:
         X = LSTM(hidden_units_2, return_sequences=False)(X)
         X = Dropout(rate=dropout_ratio)(X)
         X = Dense(class_num)(X)
-        y = Activation('sigmoid')(X)
+        y = Activation('linear')(X)
 
-        model = Model(inputs=[stock_feature], outputs=[y])
-        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return model
+        self.model = Model(inputs=[stock_feature], outputs=[y])
+        self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape', 'cosine'])
+        # return self.model
 
     def __build_gru_model(self):
         """
@@ -78,11 +79,11 @@ class Recurrent4Time:
         X = GRU(hidden_units_2, return_sequences=False)(X)
         X = Dropout(rate=dropout_ratio)(X)
         X = Dense(class_num)(X)
-        y = Activation('sigmoid')(X)
+        y = Activation('linear')(X)
 
-        model = Model(inputs=[stock_feature], outputs=[y])
-        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return model
+        self.model = Model(inputs=[stock_feature], outputs=[y])
+        self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape', 'cosine'])
+        # return model
 
     def __build_rnn_model(self):
         """
@@ -96,11 +97,11 @@ class Recurrent4Time:
         X = SimpleRNN(hidden_units_2, return_sequences=False)(X)
         X = Dropout(rate=dropout_ratio)(X)
         X = Dense(class_num)(X)
-        y = Activation('sigmoid')(X)
+        y = Activation('linear')(X)
 
-        model = Model(inputs=[stock_feature], outputs=[y])
-        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        return model
+        self.model = Model(inputs=[stock_feature], outputs=[y])
+        self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape', 'cosine'])
+        # return model
 
     def fit(self, X: np.array, y: np.array, cell='lstm'):
         """
@@ -110,18 +111,30 @@ class Recurrent4Time:
         :return: None
         """
         if cell == 'lstm':
-            self.model = self.__build_lstm_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=100)
+            self.__build_lstm_model()
+            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
         elif cell == 'rnn':
-            self.model = self.__build_rnn_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=100)
+            self.__build_rnn_model()
+            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
         elif cell == 'gru':
-            self.model = self.__build_gru_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=100)
+            self.__build_gru_model()
+            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+
+    def evaluate(self, X:np.array, y:np.array):
+        """
+        Evaluate the model on test dataset
+        :param X: X_test
+        :param y: y_test
+        :return:
+        """
+        eve_result = self.model.evaluate(X, y, batch_size=batch_size)
+        return eve_result
 
 
 if __name__ == "__main__":
     spe_universe = util.StockRawData.get_universe()
     strategy = Recurrent4Time(list(spe_universe.code), start_date='2018-01-03', end_date='2018-05-26')
     X, y = strategy.get_feature_label()
-    strategy.fit(X, y, cell='gru')
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+    strategy.fit(X_train, y_train, cell='lstm')
+    eve_result = strategy.evaluate(X_test, y_test)

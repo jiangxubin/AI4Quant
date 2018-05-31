@@ -3,9 +3,67 @@
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/logger.log" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/logger.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000001.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000001.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000002.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000002.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000063.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000063.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000333.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000333.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000538.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000538.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000651.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000651.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000725.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000725.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000776.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000776.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/000858.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/000858.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/001979.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/001979.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002024.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002024.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002027.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002027.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002142.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002142.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002230.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002230.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002304.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002304.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002415.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002415.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/002594.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/002594.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/300059.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/300059.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600000.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600000.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600009.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600009.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600015.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600015.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600016.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600016.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600019.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600019.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600028.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600028.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600030.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600030.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600036.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600036.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600048.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600048.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600050.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600050.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600104.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600104.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600276.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600276.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600518.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600518.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600519.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600519.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600585.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600585.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600690.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600690.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600703.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600703.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600837.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600837.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600887.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600887.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600900.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600900.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/600919.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/600919.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601006.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601006.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601012.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601012.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601166.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601166.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601169.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601169.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601186.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601186.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601211.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601211.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601288.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601288.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601318.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601318.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601328.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601328.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601398.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601398.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601601.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601601.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601668.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601668.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601688.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601688.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601766.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601766.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601818.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601818.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601857.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601857.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601888.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601888.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601939.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601939.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601988.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601988.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/601989.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/601989.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,29 +77,7 @@
     <SUITE FILE_PATH="coverage/DX$util.coverage" NAME="util Coverage Results" MODIFIED="1527343346728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Ai4Quant" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/util.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="101" column="93" selection-start-line="101" selection-start-column="93" selection-end-line="101" selection-end-column="93" />
-              <folding>
-                <element signature="e#86#104#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Recurrent4TimeRegression-Keras.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-59">
-              <caret line="106" column="41" lean-forward="true" selection-start-line="106" selection-start-column="41" selection-end-line="106" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -82,10 +118,11 @@
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Keras.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time-Keras.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Keras.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py" />
         <option value="$PROJECT_DIR$/attempt.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
       </list>
     </option>
   </component>
@@ -99,10 +136,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="42" />
-    <option name="y" value="-39" />
-    <option name="width" value="1893" />
-    <option name="height" value="1107" />
+    <option name="x" value="-62" />
+    <option name="y" value="-17" />
+    <option name="width" value="1904" />
+    <option name="height" value="1106" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -158,11 +195,11 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\DX" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\DX\Ai4Quant\BaseAiModel\TimeSelection" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\DX" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -177,26 +214,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.util">
-    <configuration name="RNN4Time-Keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="DX" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time-Keras.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
+  <component name="RunManager" selected="Python.Recurrent4TimeRegression-Keras">
     <configuration name="Recurrent4Time-Keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DX" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -216,7 +234,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="Recurrent4Time-Tensorflow-Origin" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Recurrent4TimeClassification-Keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DX" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -229,7 +247,26 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="Recurrent4TimeRegression-Keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="DX" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -293,19 +330,19 @@
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list>
-      <item itemvalue="Python.RNN4Time-Keras" />
-      <item itemvalue="Python.Recurrent4Time-Tensorflow-Origin" />
       <item itemvalue="Python.Recurrent4Time-Keras" />
       <item itemvalue="Python.util" />
       <item itemvalue="Python.attempt" />
+      <item itemvalue="Python.Recurrent4TimeClassification-Keras" />
+      <item itemvalue="Python.Recurrent4TimeRegression-Keras" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Recurrent4TimeRegression-Keras" />
+        <item itemvalue="Python.Recurrent4TimeClassification-Keras" />
         <item itemvalue="Python.util" />
         <item itemvalue="Python.attempt" />
         <item itemvalue="Python.Recurrent4Time-Keras" />
-        <item itemvalue="Python.Recurrent4Time-Tensorflow-Origin" />
-        <item itemvalue="Python.RNN4Time-Keras" />
       </list>
     </recent_temporary>
   </component>
@@ -333,19 +370,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32915717" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32915717" />
-      <window_info anchor="bottom" id="Python Console" order="7" weight="0.07401033" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.16523236" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.39414802" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30981067" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32915717" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3286495" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3754879" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.12723657" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.23958333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.53648067" />
@@ -374,6 +410,26 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="54" column="11" lean-forward="true" selection-start-line="41" selection-start-column="31" selection-end-line="54" selection-end-column="11" />
+          <folding>
+            <element signature="e#86#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+          <folding>
+            <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2185">
@@ -549,6 +605,24 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Estimator.py" />
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Eager.py" />
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time-Keras.py" />
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/logger.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="-5472" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attempt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -559,52 +633,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4Time-Tensorflow-Eager.py" />
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time-Keras.py" />
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="112" column="11" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/logger.log">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="-5472" />
-      </provider>
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attempt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="955">
+          <caret line="102" column="78" selection-start-line="102" selection-start-column="78" selection-end-line="102" selection-end-column="78" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#80#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
+        <state relative-caret-position="-1202">
+          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-59">
-          <caret line="106" column="41" lean-forward="true" selection-start-line="106" selection-start-column="41" selection-end-line="106" selection-end-column="41" />
+        <state relative-caret-position="-449">
+          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="101" column="93" selection-start-line="101" selection-start-column="93" selection-end-line="101" selection-end-column="93" />
+        <state relative-caret-position="-760">
+          <caret line="102" column="100" selection-start-line="102" selection-start-column="100" selection-end-line="102" selection-end-column="100" />
           <folding>
             <element signature="e#86#104#0" expanded="true" />
           </folding>
