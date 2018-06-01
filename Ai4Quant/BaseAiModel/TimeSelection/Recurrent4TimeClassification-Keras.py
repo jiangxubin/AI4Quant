@@ -1,9 +1,7 @@
 from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
 from keras.models import Model
-import pandas as pd
 import numpy as np
-import util
-from sklearn.preprocessing import StandardScaler
+from utils import DataIO
 from sklearn.model_selection import train_test_split
 
 # parser = argparse.ArgumentParser()
@@ -45,8 +43,8 @@ class Recurrent4Time:
         Get X for feature and y for label
         :return: DataFrame of raw data
         """
-        raw_data = util.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
-        X, y = util.FatureEngineering.rolling_sampling_classification(raw_data, window=time_step)
+        raw_data = DataIO.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
+        X, y = DataIO.FatureEngineering.rolling_sampling_classification(raw_data, window=time_step)
         return X, y
 
     def __build_lstm_model(self):
@@ -133,7 +131,7 @@ class Recurrent4Time:
 
 
 if __name__ == "__main__":
-    spe_universe = util.StockRawData.get_universe()
+    spe_universe = DataIO.StockRawData.get_universe()
     strategy = Recurrent4Time(list(spe_universe.code), start_date='2018-01-03', end_date='2018-05-26')
     X, y = strategy.get_feature_label()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)

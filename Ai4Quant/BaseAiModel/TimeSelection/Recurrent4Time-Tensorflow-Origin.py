@@ -1,7 +1,4 @@
-import pandas as pd
-import numpy as np
-import util
-import sys
+from utils import DataIO
 import tensorflow as tf
 
 
@@ -46,8 +43,8 @@ class LSTM4Regression:
         Get X for feature and y for label
         :return: DataFrame of raw data
         """
-        raw_data = util.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
-        X, y = util.FatureEngineering.feature_label_split(raw_data)
+        raw_data = DataIO.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
+        X, y = DataIO.FatureEngineering.feature_label_split(raw_data)
         return X, y
 
     def get_test_data_fn(self):
@@ -159,7 +156,7 @@ class LSTM4Regression:
 
 
 if __name__ == "__main__":
-    spe_universe = util.StockRawData.get_universe()
+    spe_universe = DataIO.StockRawData.get_universe()
     strategy = LSTM4Regression(list(spe_universe.code), start_date='2018-01-03', end_date='2018-05-26')
     X, y = strategy.get_train_data_fn()
     strategy.fit(X, y, cell='gru')
