@@ -1,7 +1,7 @@
 from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
 from keras.models import Model
 import numpy as np
-from utils import DataIO
+from utils import RawData, FeatureEngineering
 from sklearn.model_selection import train_test_split
 
 # parser = argparse.ArgumentParser()
@@ -43,8 +43,8 @@ class Recurrent4Time:
         Get X for feature and y for label
         :return: DataFrame of raw data
         """
-        raw_data = DataIO.StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
-        X, y = DataIO.FatureEngineering.rolling_sampling_classification(raw_data, window=time_step)
+        raw_data = RawData.RawData.get_raw_data(path=r'G:\AI4Quant\HugeData\Stock\ele_info.csv', columns_path=r'G:\AI4Quant\HugeData\Stock\columns.csv')# get raw data
+        X, y = FeatureEngineering.FatureEngineering.rolling_sampling_classification(raw_data, window=time_step)
         return X, y
 
     def __build_lstm_model(self):

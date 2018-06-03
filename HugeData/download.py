@@ -31,5 +31,5 @@ def download_by_tunnel(table_name, file_path, row_count, pt=None, sep=','):
 
 if __name__ == '__main__':
     # download_by_tunnel('tdl_quant_day_history', 'test.csv', row_count=12, pt="pt = '2018-01-06'")
-    download_by_tunnel('quant_index_local_history', 'Index/test.csv', pt="pt = '2018-05-31'", row_count=10)
-    # download_by_tunnel('quant_day_local_history', 'Stock/test.csv', pt="pt = '2018-05-31'", row_count=48)
+    download_by_tunnel('quant_index_local_history', 'Index/test.csv', pt="pt = '2018-06-01'", row_count=10)
+    download_by_tunnel('quant_day_local_history', 'Stock/test.csv', pt="pt = '2018-06-01'", row_count=48)

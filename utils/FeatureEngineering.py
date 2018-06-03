@@ -19,6 +19,11 @@ class FatureEngineering:
         return X, y, scaler
 
     @staticmethod
+    def rooling_single_object_classification(raw_data, window=5, step_size=6):
+        gp = raw_data.groupby('')
+        return X, y, scaler
+
+    @staticmethod
     def rolling_sampling_classification(raw_data, window=10):
         """
         Rolling through the whole dataframe of a single stock with a fixed window of single stock to sample data for training and test

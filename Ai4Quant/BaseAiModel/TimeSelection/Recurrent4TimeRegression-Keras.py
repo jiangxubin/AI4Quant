@@ -44,7 +44,7 @@ class Recurrent4Time:
         """
         # raw_data = StockRawData.get_universe_data(self.universe, start_date=self.start_date, end_date=self.end_date)# get raw data
         # X, y = DataIO.FatureEngineering.rolling_sampling_regression(raw_data, window=step_size)
-        raw_data = RawData.RawData.get_raw_data()
+        raw_data = RawData.RawData.get_raw_data(r'G:\AI4Quant\HugeData\Index\test.csv')
         X, y, scaler = FeatureEngineering.FatureEngineering.rooling_single_object_regression(raw_data, window=feature_size, step_size=step_size)
         return X, y
 
@@ -133,7 +133,7 @@ class Recurrent4Time:
         :param y:
         :return:
         """
-        raw_data = RawData.RawData.get_raw_data()
+        raw_data = RawData.RawData.get_raw_data(r'G:\AI4Quant\HugeData\Index\test.csv')
         X, y, scaler = FeatureEngineering.FatureEngineering.rooling_single_object_regression(raw_data,
                                                                                              window=feature_size,
                                                                                              step_size=step_size)
@@ -142,6 +142,7 @@ class Recurrent4Time:
         reversed_y_pred = list(reversed(scaler.inverse_transform(y_pred).flatten()))
         plt.plot(reversed_y, label='Real Index of HS00001')
         plt.plot(reversed_y_pred, label='Predicted index of HS00001')
+        plt.title("Hs00001 Index of Real and Predicted by LSTM model")
         plt.legend(loc='best')
         plt.show()
 
