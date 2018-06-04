@@ -6,69 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LR4Classification.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/LSTM4TimeSelection.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000001.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000002.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000063.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000333.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000538.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000651.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000725.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000776.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/000858.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/001979.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002024.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002027.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002142.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002230.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002304.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002415.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/002594.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/300059.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600000.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600009.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600015.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600016.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600019.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600028.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600030.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600036.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600048.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600050.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600104.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600276.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600518.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600519.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600585.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600690.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600703.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600837.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600887.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600900.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/600919.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601006.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601012.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601166.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601169.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601186.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601211.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601288.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601318.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601328.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601398.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601601.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601668.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601688.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601766.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601818.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601857.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601888.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601939.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601988.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/601989.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HugeData/download.py" beforeDir="false" afterPath="$PROJECT_DIR$/HugeData/download.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Time.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/FeatureEngineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/FeatureEngineering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/Huge_column.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/Huge_column.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/RawData.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/RawData.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,37 +29,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RawData.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/RawData.py">
+      <file leaf-file-name="Recurrent4TimeRegression-Keras.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
-              <folding>
-                <element signature="e#86#106#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataIO.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/DataIO.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-287">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="e#86#105#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Recurrent4TimeClassification-Keras.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            <state relative-caret-position="129">
+              <caret line="206" column="72" lean-forward="true" selection-start-line="206" selection-start-column="72" selection-end-line="206" selection-end-column="72" />
               <folding>
                 <element signature="e#0#80#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FeatureEngineering.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RawData.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/RawData.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+              <folding>
+                <element signature="e#86#106#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -174,13 +120,13 @@
         <option value="$PROJECT_DIR$/HugeData/COLUMNS.CSV" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/HugeData/download.py" />
-        <option value="$PROJECT_DIR$/HugeData/Index/columns.csv" />
         <option value="$PROJECT_DIR$/HugeData/Stock/columns.csv" />
-        <option value="$PROJECT_DIR$/utils/Huge_column.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" />
+        <option value="$PROJECT_DIR$/HugeData/Index/columns.csv" />
+        <option value="$PROJECT_DIR$/utils/Huge_column.py" />
         <option value="$PROJECT_DIR$/utils/RawData.py" />
         <option value="$PROJECT_DIR$/utils/FeatureEngineering.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
       </list>
     </option>
   </component>
@@ -193,11 +139,10 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="21" />
-    <option name="y" value="45" />
-    <option name="width" value="1744" />
-    <option name="height" value="886" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-35" />
+    <option name="width" value="1905" />
+    <option name="height" value="1031" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -211,23 +156,46 @@
         <subPane>
           <expand>
             <path>
-              <item name="AI4Quant" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AI4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="AI4Quant" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AI4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="BaseAiModel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="BaseAiModel" type="462c0819:PsiDirectoryNode" />
+              <item name="TimeSelection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Deprecated" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
               <item name="HugeData" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="AI4Quant" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AI4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
               <item name="HugeData" type="462c0819:PsiDirectoryNode" />
-              <item name="Stock" type="462c0819:PsiDirectoryNode" />
+              <item name="Index" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="AI4Quant" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AI4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -239,7 +207,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Ai4Quant/ModelOutput" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -397,10 +365,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Recurrent4TimeRegression-Keras" />
-        <item itemvalue="Python.Huge_column" />
-        <item itemvalue="Python.download" />
         <item itemvalue="Python.FeatureEngineering" />
         <item itemvalue="Python.RawData" />
+        <item itemvalue="Python.Huge_column" />
+        <item itemvalue="Python.download" />
       </list>
     </recent_temporary>
   </component>
@@ -427,30 +395,45 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="21" y="45" width="1744" height="886" extended-state="1" />
+    <frame x="-23" y="0" width="1270" height="687" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32915717" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32874355" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.25714287" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32915717" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.47160068" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.83246076" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32915717" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22280093" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26671976" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.25983796" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32874355" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.6998408" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.53648067" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.53648067" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22280093" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.25983796" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32915717" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32915717" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.25714287" />
       <window_info anchor="right" id="Data View" order="3" weight="0.29613733" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32874355" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.53648067" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32874355" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32915717" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.47160068" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,16 +457,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/utils/DataIO.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1767">
-          <caret line="102" column="100" selection-start-line="102" selection-start-column="100" selection-end-line="102" selection-end-column="100" />
-          <folding>
-            <element signature="e#86#105#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HugeData/download.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -715,7 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HugeData/Index/test.csv" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/sklearn/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
@@ -744,13 +716,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HugeData/Index/columns.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="43" lean-forward="true" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4Time-Tensorflow-Origin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -758,54 +723,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/Huge_column.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HugeData/Index/nature_columns.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/HugeData/Stock/test.csv">
       <provider selected="true" editor-type-id="LargeFileEditor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/HugeData/download.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+        <state relative-caret-position="-246">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2126">
-          <caret line="144" column="68" selection-start-line="144" selection-start-column="68" selection-end-line="144" selection-end-column="68" />
-          <folding>
-            <element signature="e#0#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/RNN4Time.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/DataIO.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -817,25 +749,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HugeData/Stock/ele_info.csv">
+    <entry file="file://$PROJECT_DIR$/HugeData/Stock/ele_info.csv" />
+    <entry file="file://$PROJECT_DIR$/HugeData/Index/nature_columns.csv">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/Huge_column.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HugeData/Index/columns.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HugeData/Index/test.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1136162">
+          <caret line="59798" column="7" selection-start-line="59798" selection-end-line="59798" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="605">
+          <caret line="125" column="16" selection-start-line="125" selection-start-column="16" selection-end-line="125" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/sklearn/preprocessing/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1860">
+          <caret line="189" column="6" selection-start-line="189" selection-start-column="6" selection-end-line="189" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/RawData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+          <folding>
+            <element signature="e#86#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+        <state relative-caret-position="133">
+          <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/RawData.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        <state relative-caret-position="129">
+          <caret line="206" column="72" lean-forward="true" selection-start-line="206" selection-start-column="72" selection-end-line="206" selection-end-column="72" />
           <folding>
-            <element signature="e#86#106#0" expanded="true" />
+            <element signature="e#0#80#0" expanded="true" />
           </folding>
         </state>
       </provider>

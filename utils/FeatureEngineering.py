@@ -8,7 +8,7 @@ from sklearn.preprocessing import MinMaxScaler,StandardScaler
 class FatureEngineering:
     @staticmethod
     def rooling_single_object_regression(raw_data, window=5, step_size=6):
-        close = list(raw_data.iloc[:, 2])
+        close = list(raw_data.iloc[:, 1])
         close = np.array(close).reshape((-1, 1))
         scaler = MinMaxScaler().fit(close)
         close = list(scaler.transform(close))
@@ -19,9 +19,23 @@ class FatureEngineering:
         return X, y, scaler
 
     @staticmethod
-    def rooling_single_object_classification(raw_data, window=5, step_size=6):
-        gp = raw_data.groupby('')
-        return X, y, scaler
+    def multi_features__regression(raw_data, step_size=30):
+        features = raw_data.values
+        length = raw_data.shape[0]
+        scaler = MinMaxScaler()
+        seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
+        temp = []
+        for index, item in enumerate(seq):
+            try:
+                scaled = scaler.fit_transform(item)
+                temp.append(scaled)
+            except ValueError:
+                continue
+        seq = temp
+        seq = [scaler.fit_transform(item) for item in seq]
+        X = np.array([i[0:step_size, :] for i in seq])
+        y = np.array([j[step_size, 1] for j in seq])
+        return X, y
 
     @staticmethod
     def rolling_sampling_classification(raw_data, window=10):
@@ -109,4 +123,5 @@ class FatureEngineering:
 
 if __name__ == "__main__":
     raw_data = RawData.RawData.get_raw_data()
-    X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
+    # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
+    X, y = FatureEngineering.multi_features__regression(raw_data, step_size=30)

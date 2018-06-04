@@ -14,7 +14,7 @@ project_path = r'E:\\DX'
 
 class RawData:
     @staticmethod
-    def get_raw_data(path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'G:\AI4Quant\HugeData\Index\nature_columns.csv', index='sh000001'):
+    def get_raw_data(path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', index='sh000001'):
         """
         Load index data and produce Input data
         :param path:Path of csv file
@@ -22,11 +22,11 @@ class RawData:
         :return:list of input data
         """
         encoding = DataIO.DataIO.detect_encode_style(path)
-        # print(encoding)
+        # encoding = r'GB2312'
         df = pd.read_csv(path, sep=r',', encoding=encoding)
-        col = pd.read_csv(columns_path, sep=r',', index_col=[0], header=[0])
+        col = pd.read_csv(columns_path, sep=r',', encoding=encoding, index_col=[0], header=[0])
         df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']))
-        sh01 = df.iloc[:6593, 1:-1]
+        sh01 = df.iloc[:6593, 2:-1]
         return sh01
 
     @staticmethod

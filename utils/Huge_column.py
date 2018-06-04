@@ -13,10 +13,10 @@ def raw_to_pandas(path)->pd.DataFrame:
     df.columns = ['Feature', 'Dtype', 'Comment']
     parent_path = os.path.abspath(path).split(os.sep)[:-1]
     parent_path = os.sep.join(parent_path)
-    df.to_csv(os.path.join(parent_path, 'nature_columns.csv'))
+    df.to_csv(os.path.join(parent_path, 'nature_columns.csv'), encoding='GB2312')
     return df
 
 
 if __name__ == '__main__':
-    # test_df = raw_to_pandas(r'G:\AI4Quant\HugeData\Index\columns.csv')
-    test_df = raw_to_pandas(r'G:\AI4Quant\HugeData\Stock\columns.csv')
+    test_df = raw_to_pandas(r'E:\DX\HugeData\Index\columns.csv')
+    # test_df = raw_to_pandas(r'G:\AI4Quant\HugeData\Stock\columns.csv')
