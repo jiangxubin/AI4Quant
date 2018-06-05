@@ -20,22 +20,56 @@ class FatureEngineering:
 
     @staticmethod
     def multi_features__regression(raw_data, step_size=30):
+        """
+        对多FEATURES模型进行特征/target分离
+        :param raw_data: 原始数据
+        :param step_size: lstm步长
+        :return:X, y
+        """
         features = raw_data.values
         length = raw_data.shape[0]
-        scaler = MinMaxScaler()
         seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
+        # np.random.shuffle(seq) Not necessary here, because train_test_split can randomly select the train and test dataset
         temp = []
-        for index, item in enumerate(seq):
+        scalers = []
+        # for index, item in enumerate(seq):
+        #     try:
+        #         scaled = scaler.fit_transform(item)
+        #         temp.append(scaled)
+        #     except ValueError:
+        #         continue
+        # seq = temp
+        for item in seq:
             try:
-                scaled = scaler.fit_transform(item)
-                temp.append(scaled)
+                scaler = MinMaxScaler().fit(item)
+                scaled_item = scaler.transform(item)
+                temp.append(scaled_item)
+                scalers.append(scaler)
             except ValueError:
                 continue
-        seq = temp
-        seq = [scaler.fit_transform(item) for item in seq]
-        X = np.array([i[0:step_size, :] for i in seq])
-        y = np.array([j[step_size, 1] for j in seq])
-        return X, y
+        X = [FatureEngineering.cut_extreme(item[:step_size, :]) for item in temp]
+        X = np.array(X)
+        y = [ob[step_size, 1]for ob in temp]
+        y = np.array(y)
+        # seq = [scaler.fit_transform(item) for item in seq]
+        # X = np.array([i[0:step_size, :] for i in seq])
+        # y = np.array([j[step_size, 1] for j in seq])
+        return X, y, scalers
+
+    @staticmethod
+    def cut_extreme(features: np.array)->np.array:
+        """
+        Remove extreme value to the extent of mean+_3*std
+        :param features: Array of features
+        :return: processed features
+        """
+        features_mean = np.mean(features, axis=1)
+        features_std = np.std(features, axis=1)
+        features_pos_limit = features_mean + 3*features_std
+        features_neg_limit = features_mean - 3*features_std
+        for i in range(features.shape[1]):
+            features[:, i] = np.clip(features[:, i], features_neg_limit[i], features_pos_limit[i])
+        return features
 
     @staticmethod
     def rolling_sampling_classification(raw_data, window=10):

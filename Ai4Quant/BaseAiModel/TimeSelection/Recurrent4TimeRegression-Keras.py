@@ -54,7 +54,7 @@ class Recurrent4Time:
         :return: DataFrame of raw data
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
-        X, y = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size=step_size)
+        X, y, _ = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size=step_size)
         return X, y
 
     def __build_lstm_model(self):
@@ -153,7 +153,7 @@ class Recurrent4Time:
             self.__build_lstm_model_multi_features()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
             self.model.save("Daul-LSTM-Regression.h5")
-            plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
+            # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
         elif cell == 'rnn':
             self.__build_rnn_model_multi_features()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
@@ -171,11 +171,11 @@ class Recurrent4Time:
         eve_result = self.model.evaluate(X, y, batch_size=batch_size)
         return eve_result
 
-    def plot_contract(self):
+    @staticmethod
+    def plot_contract(model):
         """
         Plot real close and predicted close in one figure
-        :param X:
-        :param y:
+        :param model: Fitted model
         :return:
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv')
@@ -184,7 +184,7 @@ class Recurrent4Time:
                                                                                              window=feature_size,
                                                                                              step_size=step_size)
         reversed_y = list(reversed(scaler.inverse_transform(y).flatten()))
-        y_pred = self.model.predict(X, batch_size=batch_size)
+        y_pred = model.predict(X, batch_size=batch_size)
         reversed_y_pred = list(reversed(scaler.inverse_transform(y_pred).flatten()))
         plt.plot(reversed_y, label='Real Index of SH000001')
         plt.plot(reversed_y_pred, label='Predicted index of SH000001')
@@ -193,23 +193,25 @@ class Recurrent4Time:
         plt.show()
         return reversed_y, reversed_y_pred
 
-    def plot_contract_multi_features(self):
+    @staticmethod
+    def plot_contract_multi_features(model):
         """
         Plot real close and predicted close in one figure
-        :param X:
-        :param y:
+        :param model:fitted model
         :return:
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv')
-        X, y = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size=30)
-        raw_data.iloc[:, ]
-        # plt.plot(reversed_y, label='Real Index of SH000001')
-        # plt.plot(reversed_y_pred, label='Predicted index of SH000001')
-        # plt.title("sh000001 Index of Real and Predicted by LSTM model")
-        # plt.legend(loc='best')
-        # plt.show()
+        X, y, scalers = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size)
+        real_y = raw_data.iloc[30:-1, 1]
+        pred_y = model.predict(X, batch_size=batch_size)
+        reversed_y_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, pred_y)]
+        plt.plot(real_y.values[::-1], label='Real Index of SH000001 Modelled by Basic features')
+        plt.plot(reversed_y_pred[::-1], label='Predicted index of SH000001')
+        plt.title("sh000001 Index of Real and Predicted by LSTM model")
+        plt.legend(loc='best')
+        plt.show()
         # return reversed_y, reversed_y_pred
-        return None
+        # return None
 
 
 if __name__ == "__main__":
@@ -219,3 +221,4 @@ if __name__ == "__main__":
     strategy.fit_multi_features(X_train, y_train, cell='lstm')
     # eve_result = strategy.evaluate(X_test, y_test)
     # y, y_pred = strategy.plot_contract()
+    strategy.plot_contract_multi_features(strategy.model)
