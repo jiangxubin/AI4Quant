@@ -21,10 +21,12 @@ class RawData:
         :param columns_path:path of processed columns
         :return:list of input data
         """
-        encoding = DataIO.DataIO.detect_encode_style(path)
+        encoding_1 = DataIO.DataIO.detect_encode_style(path)
         # encoding = r'GB2312'
-        df = pd.read_csv(path, sep=r',', encoding=encoding)
-        col = pd.read_csv(columns_path, sep=r',', encoding=encoding, index_col=[0], header=[0])
+        df = pd.read_csv(path, sep=r',', encoding=encoding_1)
+        encoding_2 = DataIO.DataIO.detect_encode_style(columns_path)
+        encoding_2 = r'GB2312'
+        col = pd.read_csv(columns_path, sep=r',', encoding=encoding_2, index_col=[0], header=[0])
         df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']))
         sh01 = df.iloc[:6593, 2:-1]
         return sh01
