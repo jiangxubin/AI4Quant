@@ -3,6 +3,8 @@ import math
 import numpy as np
 from keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
+from utils import Technical_Index
+from sklearn.decomposition import PCA
 
 
 class FatureEngineering:
@@ -47,31 +49,44 @@ class FatureEngineering:
         return X, y, scalers
 
     @staticmethod
-    def multi_features_classification(raw_data, step_size=):
+    def multi_features_classification(raw_data, step_size=1)->tuple:
         """
         Split features and labels for SVM classification model
         :param raw_data: Features of DataFrame
         :return: X, y
         """
+        raw_data = raw_data.dropna(axis=0, how='any')
+        close = raw_data.iloc[:, 1]
+        diff = close.pct_change().values
+
+        def two_categorical(x:int)->int:
+            if x > 0:
+                return 1
+            else:
+                return -1
+        diff = list(map(two_categorical, diff))
         features = raw_data.values
+        features = FatureEngineering.cut_extreme(features)
+        scaler = StandardScaler()
+        normalized_features = scaler.fit_transform(features)
+        reduced_features = FatureEngineering.dimension_reduction(normalized_features, remaining=10)
         length = raw_data.shape[0]
-        seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
-        # np.random.shuffle(seq) Not necessary here, because train_test_split can randomly select the train and test dataset
-        temp = []
-        scalers = []
-        for item in seq:
-            try:
-                scaler = MinMaxScaler().fit(item)
-                scaled_item = scaler.transform(item)
-                temp.append(scaled_item)
-                scalers.append(scaler)
-            except ValueError:
-                continue
-        X = [FatureEngineering.cut_extreme(item[:step_size, :]) for item in temp]
-        X = np.array(X)
-        y = [ob[step_size, 1]for ob in temp]
-        y = np.array(y)
-        return X, y
+        X = np.array([reduced_features[i, :] for i in range(length-1)])
+        y = np.array([diff[j+step_size] for j in range(length-1)])
+        return X, y, scaler
+
+    @staticmethod
+    def dimension_reduction(X: np.array, remaining=10)->np.array:
+        """
+        Lower the dimension of features matrix by reduce the features which share some relativeness
+        :param X: Features matrix
+        :return: Matrix reduced array of features
+        """
+        pca = PCA(n_components=remaining)
+        X = pca.fit_transform(X)
+        return X
+
+
 
     @staticmethod
     def cut_extreme(features: np.array)->np.array:
@@ -119,4 +134,6 @@ class FatureEngineering:
 if __name__ == "__main__":
     raw_data = RawData.RawData.get_raw_data()
     # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
-    X, y = FatureEngineering.multi_features__regression(raw_data, step_size=30)
+    # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
+    technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
+    X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
