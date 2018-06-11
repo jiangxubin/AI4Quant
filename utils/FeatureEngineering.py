@@ -21,7 +21,7 @@ class FatureEngineering:
         return X, y, scaler
 
     @staticmethod
-    def multi_features__regression(raw_data, step_size=30):
+    def multi_features_regression(raw_data, step_size=30):
         """
         对多FEATURES模型进行特征/target分离
         :param raw_data: 原始数据
@@ -68,12 +68,20 @@ class FatureEngineering:
         features = raw_data.values
         features = FatureEngineering.cut_extreme(features)
         scaler = StandardScaler()
-        normalized_features = scaler.fit_transform(features)
-        reduced_features = FatureEngineering.dimension_reduction(normalized_features, remaining=10)
+        features = scaler.fit_transform(features)
+        # reduced_features = FatureEngineering.dimension_reduction(normalized_features, remaining=10)
         length = raw_data.shape[0]
-        X = np.array([reduced_features[i, :] for i in range(length-1)])
+        X = np.array([features[i, :] for i in range(length-1)])
         y = np.array([diff[j+step_size] for j in range(length-1)])
-        return X, y, scaler
+        # scaled_X = []
+        # for item in X:
+        #     print(item.shape)
+        #     item = FatureEngineering.cut_extreme(item)
+        #     scaler = StandardScaler().fit(item)
+        #     item = scaler.transform(item)
+        #     item = FatureEngineering.dimension_reduction(item, remaining=10)
+        #     scaled_X.append(item)
+        return X, y
 
     @staticmethod
     def dimension_reduction(X: np.array, remaining=10)->np.array:
@@ -85,8 +93,6 @@ class FatureEngineering:
         pca = PCA(n_components=remaining)
         X = pca.fit_transform(X)
         return X
-
-
 
     @staticmethod
     def cut_extreme(features: np.array)->np.array:
@@ -136,4 +142,4 @@ if __name__ == "__main__":
     # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
     # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
-    X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
+    X, y = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)

@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Daul-LSTM-Regression.h5" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Daul-LSTM-Regression.h5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/FeatureEngineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/FeatureEngineering.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,13 +21,51 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DX$util.coverage" NAME="util Coverage Results" MODIFIED="1527343346728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Ai4Quant" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SVM4Classification.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Recurrent4TimeRegression-Keras.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="23">
+              <caret line="99" selection-start-line="99" selection-end-line="99" />
+              <folding>
+                <element signature="e#0#80#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FeatureEngineering.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="866">
+              <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SVM4Classification.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-144">
-              <caret line="67" column="11" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="11" />
+            <state relative-caret-position="727">
+              <caret line="134" selection-start-line="134" selection-end-line="134" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -53,6 +93,7 @@
       <find>from_tuples</find>
       <find>time_step</find>
       <find>step_vector_size</find>
+      <find>feature_size</find>
     </findStrings>
     <replaceStrings>
       <replace>lstm_units</replace>
@@ -92,15 +133,15 @@
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" />
         <option value="$PROJECT_DIR$/HugeData/Index/columns.csv" />
         <option value="$PROJECT_DIR$/utils/Huge_column.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
         <option value="$PROJECT_DIR$/Deprecated/FeatureEngineering.py" />
         <option value="$PROJECT_DIR$/Referrence/Ai_Trade_Paper.md" />
         <option value="$PROJECT_DIR$/utils/RawData.py" />
         <option value="$PROJECT_DIR$/utils/feature_computation.py" />
         <option value="$PROJECT_DIR$/Referrence/FinanceKnowledge.md" />
-        <option value="$PROJECT_DIR$/utils/FeatureEngineering.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
+        <option value="$PROJECT_DIR$/utils/FeatureEngineering.py" />
       </list>
     </option>
   </component>
@@ -113,9 +154,8 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="1" />
-    <option name="y" value="-14" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-26" />
     <option name="width" value="1934" />
     <option name="height" value="1094" />
   </component>
@@ -152,6 +192,22 @@
               <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
               <item name="BaseAiModel" type="462c0819:PsiDirectoryNode" />
               <item name="TimeSelection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="ModelOutput" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Referrence" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -194,7 +250,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SVM4Classification">
+  <component name="RunManager" selected="Python.Recurrent4TimeRegression-Keras">
     <configuration name="FeatureEngineering" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DX" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -318,10 +374,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Recurrent4TimeRegression-Keras" />
         <item itemvalue="Python.SVM4Classification" />
         <item itemvalue="Python.FeatureEngineering" />
         <item itemvalue="Python.feature_computation" />
-        <item itemvalue="Python.Recurrent4TimeRegression-Keras" />
         <item itemvalue="Python.RawData" />
       </list>
     </recent_temporary>
@@ -349,19 +405,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
+    <frame x="-17" y="0" width="1289" height="729" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32915717" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32874355" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32915717" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.2839721" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5842294" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3918919" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32915717" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24252222" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24045491" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.26758286" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32983023" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.12997563" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.53648067" />
@@ -631,14 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Referrence/Paper-Path.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HugeData/Stock/columns.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
@@ -676,24 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Referrence/progress.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Referrence/FinanceKnowledge.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="209">
-            <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/Technical_Index.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -704,30 +735,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1613">
-          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/sklearn/metrics/classification.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6175">
           <caret line="1134" selection-start-line="1134" selection-end-line="1134" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-28">
-          <caret line="61" column="40" lean-forward="true" selection-start-line="61" selection-start-column="40" selection-end-line="61" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -744,12 +755,58 @@
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/DF OF roc_auc.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Referrence/progress.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Referrence/Paper-Path.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Referrence/FinanceKnowledge.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="202">
+            <caret line="12" column="20" lean-forward="true" selection-start-line="10" selection-end-line="12" selection-end-column="20" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
+          <folding>
+            <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="67" column="11" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="11" />
+        <state relative-caret-position="727">
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="866">
+          <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

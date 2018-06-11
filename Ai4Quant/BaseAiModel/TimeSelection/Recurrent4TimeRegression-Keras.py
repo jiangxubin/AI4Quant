@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import pandas as pd
 from keras.utils import plot_model
+from utils.Technical_Index import CalculateFeatures
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -21,7 +22,8 @@ hidden_units_1 = 128
 hidden_units_2 = 128
 step_size = 30
 # hidden_units = args.hidden_units
-feature_size = 7
+# feature_size = 7
+feature_size = 17
 # feature_size = args.feature_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
@@ -54,7 +56,8 @@ class Recurrent4Time:
         :return: DataFrame of raw data
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
-        X, y, _ = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size=step_size)
+        tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
+        X, y, _ = FeatureEngineering.FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
         return X, y
 
     def __build_lstm_model(self):
@@ -153,6 +156,7 @@ class Recurrent4Time:
             self.__build_lstm_model_multi_features()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
             self.model.save("Daul-LSTM-Regression.h5")
+            self.model.save("Daul-LSTM-Regression-Addtion-Features.h5")
             # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
         elif cell == 'rnn':
             self.__build_rnn_model_multi_features()
@@ -201,17 +205,61 @@ class Recurrent4Time:
         :return:
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv')
-        X, y, scalers = FeatureEngineering.FatureEngineering.multi_features__regression(raw_data, step_size)
-        real_y = raw_data.iloc[30:-1, 1]
+        tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
+        X, y, scalers = FeatureEngineering.FatureEngineering.multi_features_regression(tech_indexed_data, step_size)
+        # real_y = raw_data.iloc[50:-1, 1]
+        real_y = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, y)]
         pred_y = model.predict(X, batch_size=batch_size)
         reversed_y_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, pred_y)]
-        plt.plot(real_y.values[::-1], label='Real Index of SH000001 Modelled by Basic features')
+        plt.plot(real_y[::-1], label='Real Index of SH000001 Modelled by Basic features')
         plt.plot(reversed_y_pred[::-1], label='Predicted index of SH000001')
-        plt.title("sh000001 Index of Real and Predicted by LSTM model")
+        # plt.title("sh000001 Index of Real and Predicted by LSTM model")
+        plt.title("sh000001 Index of Real and Predicted by LSTM model with additional features")
         plt.legend(loc='best')
         plt.show()
-        # return reversed_y, reversed_y_pred
-        # return None
+        return real_y, reversed_y_pred
+
+    def positive_comparision(self, y, y_pred)->tuple:
+        """
+        Count the ratio of predicted up-rising/down with real uprising/down
+        :param y: real index
+        :param y_pred: predicted index
+        :return: ratio
+        """
+        y = pd.Series(y)
+        y_pred = pd.Series(y_pred)
+        delta_real = y - y.shift(1)
+        up_index = delta_real[delta_real > 0].index
+        down_index = delta_real[delta_real < 0].index
+        delta_pred = y_pred - y_pred.shift(1)
+        up_contract = delta_pred[up_index]
+        down_contract = delta_pred[down_index]
+        pred_up = up_contract[up_contract > 0]
+        pred_down = down_contract[down_contract < 0]
+        up_ratio = len(pred_up)/len(up_index)
+        down_ratio = len(pred_down)/len(down_index)
+        return up_ratio, down_ratio
+
+    def negative_comparision(self, y, y_pred)->tuple:
+        """
+        Count the ratio of real up-rising/down with predicted uprising/down
+        :param y: real index
+        :param y_pred: predicted index
+        :return: ratio
+        """
+        y = pd.Series(y)
+        y_pred = pd.Series(y_pred)
+        delta_pred = y_pred - y_pred.shift(1)
+        up_index = delta_pred[delta_pred > 0].index
+        down_index = delta_pred[delta_pred < 0].index
+        delta_real = y - y.shift(1)
+        up_contract = delta_real[up_index]
+        down_contract = delta_real[down_index]
+        real_up = up_contract[up_contract > 0]
+        real_down = down_contract[down_contract < 0]
+        up_ratio = len(real_up)/len(up_index)
+        down_ratio = len(real_down)/len(down_index)
+        return up_ratio, down_ratio
 
 
 if __name__ == "__main__":
@@ -221,4 +269,6 @@ if __name__ == "__main__":
     strategy.fit_multi_features(X_train, y_train, cell='lstm')
     # eve_result = strategy.evaluate(X_test, y_test)
     # y, y_pred = strategy.plot_contract()
-    strategy.plot_contract_multi_features(strategy.model)
+    ry, ryp = strategy.plot_contract_multi_features(strategy.model)
+    p_u, p_d = strategy.positive_comparision(ry, ryp)
+    n_u, n_d = strategy.negative_comparision(ry, ryp)

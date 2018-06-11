@@ -21,7 +21,7 @@ class SVM4Classification:
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, _ = FatureEngineering.multi_features_classification(tech_indexed_data)
+        X, y = FatureEngineering.multi_features_classification(tech_indexed_data)
         return X, y
 
     def __build_model(self, C, gamma, kernel):
@@ -29,9 +29,13 @@ class SVM4Classification:
         Build SVM model
         :return:
         """
-        clf = SVC(C=0.8, gamma=0.1, kernel='rbf')
-        self.model = clf
-        print(type(self.model))
+        if gamma is None:
+            clf = SVC(C=0.8, kernel='linear')
+            self.model = clf
+        else:
+            clf = SVC(C=C, gamma=gamma, kernel=kernel)
+            self.model = clf
+        # print(type(self.model))
 
     def fit(self, X:np.array, y:np.array, C:float, gamma:float, kernel:str):
         """
@@ -78,6 +82,7 @@ class SVM4Classification:
         # print("Grid scores on development set:")
         # print("Best socre:", clf.best_score_)
         cv_df = pd.DataFrame(clf.cv_results_)
+        cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning results of SVM hyperparameters')
         # means = clf.cv_results_['mean_test_score']
         # stds = clf.cv_results_['std_test_score']
         # for mean, std, params in zip(means, stds, clf.cv_results_['params']):
@@ -85,17 +90,46 @@ class SVM4Classification:
         #           % (mean, std * 2, params))
         # y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
         # print(classification_report(y_true, y_pred))
-        return cv_df
+        return cv_df, clf
+
+    def tune_hyperameter_single_metrics(self, X_train:np.array, y_train:np.array, X_test:np.array,y_test:np.array):
+        """
+        Choose hyperameter based on single metrcis
+        :param X_train: 
+        :param y_train: 
+        :param X_test: 
+        :param y_test: 
+        :return: Chosen hyperameter for SVM model 
+        """""
+        param_grid = [{'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}]
+        # param_grid = [{'C': [0.1, 0.3, 1, 3, 10],  'kernel': ['linear']}]
+        scores = ['roc_auc', 'f1', 'precision', 'accuracy']
+        for score in scores:
+            clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=score, return_train_score=True)
+            clf.fit(X_train, y_train)
+            print("Best parameters set found on development set:")
+            print(clf.best_params_)
+            print("Grid scores on development set:")
+            print("Best socre:", clf.best_score_)
+            # cv_df = pd.DataFrame(clf.cv_results_)
+            # cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning results of SVM hyperparameters')
+            means = clf.cv_results_['mean_test_score']
+            stds = clf.cv_results_['std_test_score']
+            for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+                print("%0.3f (+/-%0.03f) for %r"
+                      % (mean, std * 2, params))
+            y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
+            print(classification_report(y_true, y_pred))
 
 
 if __name__ == "__main__":
     strategy = SVM4Classification()
     X, y = strategy.get_feature_label()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-    # strategy.fit(X_train, y_train, C=0.9, gamma=0.1, kernel='rbf')
-    # auc, f1 = strategy.predict(X_test, y_test)
-    cv_results_df = strategy.tune_hyperparam(X_train, y_train, X_test, y_test)
-    chosen_model = cv_results_df.loc['params']
+    # cv_results_df, clf = strategy.tune_hyperparam(X_train, y_train, X_test, y_test)
+    # strategy.tune_hyperameter_single_metrics(X_train, y_train, X_test, y_test)
+    strategy.fit(X_train, y_train, C=10, gamma=0.01, kernel='rbf')
+    auc, f1 = strategy.predict(X_test, y_test)
 
 
 
