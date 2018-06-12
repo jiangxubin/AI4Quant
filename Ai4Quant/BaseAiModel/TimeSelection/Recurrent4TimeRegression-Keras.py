@@ -1,7 +1,7 @@
 from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
 from keras.models import Model
 import numpy as np
-from utils import RawData, FeatureEngineering
+from utils import RawData, FeatureEngineering, Metrics
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -27,18 +27,13 @@ feature_size = 17
 # feature_size = args.feature_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
-epochs = 50
+epochs = 20
 # epochs = args.epochs
 output_size = 1
 
+
 class Recurrent4Time:
     def __init__(self):
-        """
-        :param universe: 初始化股票池
-        """
-        # self.universe = universe
-        # self.start_date = start_date
-        # self.end_date = end_date
         self.model = None
 
     def get_feature_label(self)->tuple:
@@ -50,15 +45,16 @@ class Recurrent4Time:
         X, y, scaler = FeatureEngineering.FatureEngineering.rooling_single_object_regression(raw_data, window=feature_size, step_size=step_size)
         return X, y
 
-    def get_feature_label_multi_features(self)->tuple:
+    @staticmethod
+    def get_feature_label_multi_features()->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         :return: DataFrame of raw data
         """
         raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, _ = FeatureEngineering.FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
-        return X, y
+        X, y, scalers, origin_y = FeatureEngineering.FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
+        return X, y, scalers, origin_y
 
     def __build_lstm_model(self):
         """
@@ -158,21 +154,21 @@ class Recurrent4Time:
             self.model.save("Daul-LSTM-Regression.h5")
             self.model.save("Daul-LSTM-Regression-Addtion-Features.h5")
             # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
-        elif cell == 'rnn':
-            self.__build_rnn_model_multi_features()
-            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
-        elif cell == 'gru':
-            self.__build_gru_model_multi_features()
-            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+        # elif cell == 'rnn':
+        #     self.__build_rnn_model_multi_features()
+        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+        # elif cell == 'gru':
+        #     self.__build_gru_model_multi_features()
+        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
 
-    def evaluate(self, X:np.array, y:np.array):
+    def evaluate(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
         Evaluate the model on test dataset
         :param X: X_test
         :param y: y_test
         :return:
         """
-        eve_result = self.model.evaluate(X, y, batch_size=batch_size)
+        eve_result = self.model.evaluate(X_val, y_val, batch_size=batch_size)
         return eve_result
 
     @staticmethod
@@ -198,77 +194,55 @@ class Recurrent4Time:
         return reversed_y, reversed_y_pred
 
     @staticmethod
-    def plot_contract_multi_features(model):
+    def train_val_test_split(X: np.array, y: np.array, train_size=0.7, validation_size=0.2):
+        """
+        Split whole dataset into train/validation/test dataset without mixing future data into training dataset
+        :param X: Features array
+        :param y: Labels array
+        :return:
+        """
+        X_train = X[:int(X.shape[0] * train_size)]
+        y_train = y[:int(y.shape[0] * train_size)]
+        X_val = X[int(X.shape[0] * train_size):int(X.shape[0] * (train_size+validation_size))]
+        y_val = y[int(y.shape[0] * train_size):int(y.shape[0] * (train_size+validation_size))]
+        X_test = X[int(X.shape[0] * (train_size+validation_size)):]
+        y_test = y[int(y.shape[0] * (train_size+validation_size)):]
+        return X_train, X_val, X_test, y_train, y_val, y_test
+
+    @staticmethod
+    def plot_contract_multi_features(model, X, y, scalers, origin_y):
         """
         Plot real close and predicted close in one figure
         :param model:fitted model
         :return:
         """
-        raw_data = RawData.RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv')
-        tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scalers = FeatureEngineering.FatureEngineering.multi_features_regression(tech_indexed_data, step_size)
-        # real_y = raw_data.iloc[50:-1, 1]
-        real_y = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, y)]
-        pred_y = model.predict(X, batch_size=batch_size)
+        X_test = X[int(X.shape[0]*0.9):]
+        y_test = y[int(X.shape[0]*0.9):]
+        scalers = scalers[int(X.shape[0]*0.9):]
+        pred_y = model.predict(X_test, batch_size=batch_size)
         reversed_y_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, pred_y)]
-        plt.plot(real_y[::-1], label='Real Index of SH000001 Modelled by Basic features')
-        plt.plot(reversed_y_pred[::-1], label='Predicted index of SH000001')
+        reversed_y_real = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, y_test)]
+        plt.plot(origin_y[int(X.shape[0]*0.9):], label='Real Index of SH000001 Modelled by Basic features')
+        plt.plot(reversed_y_real, label='Reversed Real Index of SH000001 ')
+        plt.plot(reversed_y_pred, label='Predicted index of SH000001')
         # plt.title("sh000001 Index of Real and Predicted by LSTM model")
         plt.title("sh000001 Index of Real and Predicted by LSTM model with additional features")
         plt.legend(loc='best')
         plt.show()
-        return real_y, reversed_y_pred
-
-    def positive_comparision(self, y, y_pred)->tuple:
-        """
-        Count the ratio of predicted up-rising/down with real uprising/down
-        :param y: real index
-        :param y_pred: predicted index
-        :return: ratio
-        """
-        y = pd.Series(y)
-        y_pred = pd.Series(y_pred)
-        delta_real = y - y.shift(1)
-        up_index = delta_real[delta_real > 0].index
-        down_index = delta_real[delta_real < 0].index
-        delta_pred = y_pred - y_pred.shift(1)
-        up_contract = delta_pred[up_index]
-        down_contract = delta_pred[down_index]
-        pred_up = up_contract[up_contract > 0]
-        pred_down = down_contract[down_contract < 0]
-        up_ratio = len(pred_up)/len(up_index)
-        down_ratio = len(pred_down)/len(down_index)
-        return up_ratio, down_ratio
-
-    def negative_comparision(self, y, y_pred)->tuple:
-        """
-        Count the ratio of real up-rising/down with predicted uprising/down
-        :param y: real index
-        :param y_pred: predicted index
-        :return: ratio
-        """
-        y = pd.Series(y)
-        y_pred = pd.Series(y_pred)
-        delta_pred = y_pred - y_pred.shift(1)
-        up_index = delta_pred[delta_pred > 0].index
-        down_index = delta_pred[delta_pred < 0].index
-        delta_real = y - y.shift(1)
-        up_contract = delta_real[up_index]
-        down_contract = delta_real[down_index]
-        real_up = up_contract[up_contract > 0]
-        real_down = down_contract[down_contract < 0]
-        up_ratio = len(real_up)/len(up_index)
-        down_ratio = len(real_down)/len(down_index)
-        return up_ratio, down_ratio
+        return reversed_y_pred, reversed_y_real, origin_y[int(X.shape[0]*0.9):]
 
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y = strategy.get_feature_label_multi_features()
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+    X, y, scalers, origin_y = Recurrent4Time.get_feature_label_multi_features()
+    all_datasets = Recurrent4Time.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    X_train, X_val = all_datasets[0], all_datasets[1]
+    y_train, y_val = all_datasets[3], all_datasets[4]
     strategy.fit_multi_features(X_train, y_train, cell='lstm')
+    evaluation_results = strategy.evaluate(X_val, y_val)
     # eve_result = strategy.evaluate(X_test, y_test)
     # y, y_pred = strategy.plot_contract()
-    ry, ryp = strategy.plot_contract_multi_features(strategy.model)
-    p_u, p_d = strategy.positive_comparision(ry, ryp)
-    n_u, n_d = strategy.negative_comparision(ry, ryp)
+    reversed_y_pred, reversed_y_real, origin_y = strategy.plot_contract_multi_features(strategy.model, X, y, scalers, origin_y)
+    test_real_y = origin_y
+    test_pred_y = reversed_y_pred
+    ur, dr = Metrics.positive_comparision(test_real_y, test_pred_y)

@@ -5,6 +5,7 @@ from keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from utils import Technical_Index
 from sklearn.decomposition import PCA
+from sklearn.model_selection import train_test_split
 
 
 class FatureEngineering:
@@ -32,10 +33,12 @@ class FatureEngineering:
         length = raw_data.shape[0]
         seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
         # np.random.shuffle(seq) Not necessary here, because train_test_split can randomly select the train and test dataset
+        origin_y = []
         temp = []
         scalers = []
         for item in seq:
             try:
+                origin_y.append(item[step_size, 1])
                 scaler = MinMaxScaler().fit(item)
                 scaled_item = scaler.transform(item)
                 temp.append(scaled_item)
@@ -46,7 +49,7 @@ class FatureEngineering:
         X = np.array(X)
         y = [ob[step_size, 1]for ob in temp]
         y = np.array(y)
-        return X, y, scalers
+        return X[::-1], y[::-1], scalers[::-1], origin_y[::-1]
 
     @staticmethod
     def multi_features_classification(raw_data, step_size=1)->tuple:
