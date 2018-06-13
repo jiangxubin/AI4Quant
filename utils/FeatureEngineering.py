@@ -78,12 +78,13 @@ class FatureEngineering:
         X = np.array([features[i, :] for i in range(length-1)])
         y = np.array([diff[j+step_size] for j in range(length-1)])
         # scaled_X = []
+        # scalers = []
         # for item in X:
-        #     print(item.shape)
-        #     item = FatureEngineering.cut_extreme(item)
+        #     # item = FatureEngineering.cut_extreme(item)
         #     scaler = StandardScaler().fit(item)
         #     item = scaler.transform(item)
-        #     item = FatureEngineering.dimension_reduction(item, remaining=10)
+        #     scalers.append(scaler)
+        #     # item = FatureEngineering.dimension_reduction(item, remaining=10)
         #     scaled_X.append(item)
         return X[::-1], y[::-1]
 
@@ -163,4 +164,5 @@ if __name__ == "__main__":
     # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
     # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
-    X, y, scalers, origin_y = FatureEngineering.multi_features_regression(technical_indexed_data, step_size=30)
+    # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(technical_indexed_data, step_size=30)
+    X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)

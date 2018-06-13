@@ -12,9 +12,6 @@ import matplotlib.pyplot as plt
 
 
 class SVM4Classification:
-    def __init__(self):
-        self.model = None
-
     def get_feature_label(self):
         """
         Prepare X(features matrix) and y(labels) for model training, validation, and test
@@ -22,7 +19,7 @@ class SVM4Classification:
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, _ = FatureEngineering.multi_features_classification(tech_indexed_data)
+        X, y = FatureEngineering.multi_features_classification(tech_indexed_data)
         return X, y
 
     def __build_model(self, C, gamma, kernel):

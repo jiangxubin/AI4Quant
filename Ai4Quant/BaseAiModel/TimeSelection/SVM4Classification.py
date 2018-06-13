@@ -3,13 +3,13 @@ import pandas as pd
 import numpy as np
 from utils.FeatureEngineering import FatureEngineering
 from utils.RawData import RawData
-from utils.DataIO import DataIO
 from utils.Technical_Index import CalculateFeatures
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import roc_curve, auc, roc_auc_score, f1_score, precision_score, accuracy_score, classification_report
-import matplotlib.pyplot as plt
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 
+
+feature_size = 17
 
 class SVM4Classification(BaseStrategy.BaseStrategy):
     def get_feature_label(self):
@@ -22,7 +22,7 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         X, y = FatureEngineering.multi_features_classification(tech_indexed_data)
         return X, y
 
-    def __build_model(self, C, gamma, kernel):
+    def __build_model(self, C: float, gamma, kernel: str):
         """
         Build SVM model
         :return:
@@ -34,13 +34,16 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
             clf = SVC(C=C, gamma=gamma, kernel=kernel)
             self.model = clf
 
-    def fit(self, X:np.array, y:np.array, C:float, gamma:float, kernel:str):
-        """
+    def fit(self, X: np.array, y: np.array, C: float, gamma: float, kernel: str):
+        '''
         Train model
         :param X: features matrix X
         :param y: labels matrix y
+        :param C: Penalize the softened variable
+        :param gamma: Coefficient of the innner multiplication of two Vectors
+        :param kernel:
         :return:
-        """
+        '''
         self.__build_model(C, gamma, kernel)
         self.model.fit(X, y)
 
@@ -116,7 +119,7 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
 if __name__ == "__main__":
     strategy = SVM4Classification()
     X, y = strategy.get_feature_label()
-    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    X_all, y_all  = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
     top_params = []
     for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
@@ -126,12 +129,16 @@ if __name__ == "__main__":
     predict_all = {}
     for params in top_params:
         strategy.fit(X_all[0], y_all[0], C=params['C'], gamma=params['gamma'], kernel=params['kernel'])
-        pred = strategy.predict(X_all[2])
-        fpr, tpr, thretholds = roc_curve(y_all[2], pred, pos_label=1)
+        y_pred = strategy.predict(X_all[2])
+        # real_y_test = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], y_all[2])]
+        # real_y_test = scaler.inverse_transform(y_all[2])
+        # pred_y_test = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], y_pred)]
+        # pred_y_test = scaler.inverse_transform(y_pred)
+        fpr, tpr, thretholds = roc_curve(y_all[2], y_pred, pos_label=1)
         score_auc = auc(fpr, tpr)
-        score_f1 = f1_score(y_all[2], pred)
-        score_precision = precision_score(y_all[2], pred)
-        score_accuracy = accuracy_score(y_all[2], pred)
+        score_f1 = f1_score(y_all[2], y_pred)
+        score_precision = precision_score(y_all[2], y_pred)
+        score_accuracy = accuracy_score(y_all[2], y_pred)
         predict_all[str(params)] = {'auc': score_auc, 'f1': score_f1, 'precision': score_precision, 'accuracy': score_accuracy}
 
 
