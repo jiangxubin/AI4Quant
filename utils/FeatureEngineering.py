@@ -29,6 +29,7 @@ class FatureEngineering:
         :param step_size: lstm步长
         :return:X, y
         """
+        raw_data = raw_data.dropna(axis=0, how='any')
         features = raw_data.values
         length = raw_data.shape[0]
         seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
@@ -84,7 +85,7 @@ class FatureEngineering:
         #     item = scaler.transform(item)
         #     item = FatureEngineering.dimension_reduction(item, remaining=10)
         #     scaled_X.append(item)
-        return X, y
+        return X[::-1], y[::-1]
 
     @staticmethod
     def dimension_reduction(X: np.array, remaining=10)->np.array:
@@ -139,10 +140,27 @@ class FatureEngineering:
         encoded_y = to_categorical(y, num_classes=2)
         return X_T, encoded_y
 
+    @staticmethod
+    def train_val_test_split(*sequences, train_size=0.7, validation_size=0.2):
+        """
+        Split whole dataset into train/validation/test dataset without mixing future data into training dataset
+        :param X: Features array
+        :param y: Labels array
+        :return:
+        """
+        output_datasets = []
+        for item in sequences:
+            length = len(item)
+            train = item[:int(length * train_size)]
+            val = item[int(length * train_size):int(length * (train_size+validation_size))]
+            test = item[int(length * (train_size+validation_size)):]
+            output_datasets.append((train, val, test))
+        return output_datasets
+
 
 if __name__ == "__main__":
     raw_data = RawData.RawData.get_raw_data()
     # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
     # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
-    X, y = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
+    X, y, scalers, origin_y = FatureEngineering.multi_features_regression(technical_indexed_data, step_size=30)

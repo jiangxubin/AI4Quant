@@ -6,14 +6,12 @@ from utils.RawData import RawData
 from utils.DataIO import DataIO
 from utils.Technical_Index import CalculateFeatures
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import roc_curve, auc, roc_auc_score, f1_score, classification_report
+from sklearn.metrics import roc_curve, auc, roc_auc_score, f1_score, precision_score, accuracy_score, classification_report
 import matplotlib.pyplot as plt
+from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 
 
-class SVM4Classification:
-    def __init__(self):
-        self.model = None
-
+class SVM4Classification(BaseStrategy.BaseStrategy):
     def get_feature_label(self):
         """
         Prepare X(features matrix) and y(labels) for model training, validation, and test
@@ -35,7 +33,6 @@ class SVM4Classification:
         else:
             clf = SVC(C=C, gamma=gamma, kernel=kernel)
             self.model = clf
-        # print(type(self.model))
 
     def fit(self, X:np.array, y:np.array, C:float, gamma:float, kernel:str):
         """
@@ -47,30 +44,22 @@ class SVM4Classification:
         self.__build_model(C, gamma, kernel)
         self.model.fit(X, y)
 
-    def predict(self, X: np.array, y:np.array):
+    def predict(self, X: np.array):
         """
         Predict the distance between example and seperating hyperplane which is equal to label
         :param example: np array of shape(n, 1)
         :return: laebl
         """
-        dist = self.model.predict(X)
-        fpr, tpr, thred = roc_curve(y, dist, pos_label=1)
-        f1 = f1_score(y, dist, pos_label=1)
-        auc = roc_auc_score(y, dist)
-        plt.plot(fpr, tpr)
-        plt.plot()
-        plt.title("ROC Curve")
-        plt.xlabel("False positive rate")
-        plt.ylabel("True positive rate")
-        plt.show()
-        return auc, f1
+        pred = self.model.predict(X)
+        return pred
 
-    def tune_hyperparam(self, X_train: np.array, y_train: np.array, X_test: np.array, y_test: np.array):
+    def tune_hyperparams(self, X_train: np.array, y_train: np.array, X_test: np.array, y_test: np.array):
         """
         Tune the model to find the most suitable param
         :return: Best tuned param
         """
-        param_grid = [{'C': [0.1, 1, 10, 100, 1000], 'kernel': ['linear']},
+        # param_grid = [{'C': [0.1, 1, 10, 100, 1000], 'kernel': ['linear']},
+        param_grid = [
             {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}
         ]
         # scores = ['roc_auc', 'f1', 'precision', 'accuracy']
@@ -82,7 +71,7 @@ class SVM4Classification:
         # print("Grid scores on development set:")
         # print("Best socre:", clf.best_score_)
         cv_df = pd.DataFrame(clf.cv_results_)
-        cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning results of SVM hyperparameters')
+        cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning SVM hyperparameters.csv')
         # means = clf.cv_results_['mean_test_score']
         # stds = clf.cv_results_['std_test_score']
         # for mean, std, params in zip(means, stds, clf.cv_results_['params']):
@@ -90,7 +79,7 @@ class SVM4Classification:
         #           % (mean, std * 2, params))
         # y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
         # print(classification_report(y_true, y_pred))
-        return cv_df, clf
+        return cv_df
 
     def tune_hyperameter_single_metrics(self, X_train:np.array, y_train:np.array, X_test:np.array,y_test:np.array):
         """
@@ -104,32 +93,48 @@ class SVM4Classification:
         param_grid = [{'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}]
         # param_grid = [{'C': [0.1, 0.3, 1, 3, 10],  'kernel': ['linear']}]
         scores = ['roc_auc', 'f1', 'precision', 'accuracy']
-        for score in scores:
-            clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=score, return_train_score=True)
-            clf.fit(X_train, y_train)
-            print("Best parameters set found on development set:")
-            print(clf.best_params_)
-            print("Grid scores on development set:")
-            print("Best socre:", clf.best_score_)
-            # cv_df = pd.DataFrame(clf.cv_results_)
-            # cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning results of SVM hyperparameters')
-            means = clf.cv_results_['mean_test_score']
-            stds = clf.cv_results_['std_test_score']
-            for mean, std, params in zip(means, stds, clf.cv_results_['params']):
-                print("%0.3f (+/-%0.03f) for %r"
-                      % (mean, std * 2, params))
-            y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
-            print(classification_report(y_true, y_pred))
+        # for score in scores:
+            # clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=score, return_train_score=True)
+        clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=scores, return_train_score=True, refit=False)
+        clf.fit(X_train, y_train)
+            # print("Best parameters set found on development set:")
+            # print(clf.best_params_)
+            # print("Grid scores on development set:")
+            # print("Best socre:", clf.best_score_)
+        cv_df = pd.DataFrame(clf.cv_results_)
+        cv_df.to_csv(r'E:\DX\Ai4Quant\ModelOutput\Tuning results of SVM hyperparameters.csv')
+            # means = clf.cv_results_['mean_test_score']
+            # stds = clf.cv_results_['std_test_score']
+            # for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+            #     print("%0.3f (+/-%0.03f) for %r"
+            #           % (mean, std * 2, params))
+            # y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
+            # print(classification_report(y_true, y_pred))
+        return cv_df
 
 
 if __name__ == "__main__":
     strategy = SVM4Classification()
     X, y = strategy.get_feature_label()
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-    # cv_results_df, clf = strategy.tune_hyperparam(X_train, y_train, X_test, y_test)
-    # strategy.tune_hyperameter_single_metrics(X_train, y_train, X_test, y_test)
-    strategy.fit(X_train, y_train, C=10, gamma=0.01, kernel='rbf')
-    auc, f1 = strategy.predict(X_test, y_test)
+    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
+    top_params = []
+    for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
+        params = cv_results_df[cv_results_df[top] == 1]['params'].values[0]
+        # print(params)
+        top_params.append(params)
+    predict_all = {}
+    for params in top_params:
+        strategy.fit(X_all[0], y_all[0], C=params['C'], gamma=params['gamma'], kernel=params['kernel'])
+        pred = strategy.predict(X_all[2])
+        fpr, tpr, thretholds = roc_curve(y_all[2], pred, pos_label=1)
+        score_auc = auc(fpr, tpr)
+        score_f1 = f1_score(y_all[2], pred)
+        score_precision = precision_score(y_all[2], pred)
+        score_accuracy = accuracy_score(y_all[2], pred)
+        predict_all[str(params)] = {'auc': score_auc, 'f1': score_f1, 'precision': score_precision, 'accuracy': score_accuracy}
+
+
 
 
 
