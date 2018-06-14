@@ -1,5 +1,9 @@
+'''
+Self defined metrics for this project
+'''
 import pandas as pd
 import numpy as np
+from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 
 
 def positive_comparision(y, y_pred)->tuple:
@@ -46,7 +50,19 @@ def negative_comparision(y, y_pred)->tuple:
     return up_ratio, down_ratio
 
 
+def all_classification_score(y, y_pred):
+    '''
+    Calculate several classification score at the same time
+    :param y: real label
+    :param y_pred: predicted label
+    :return: dict of different score
+    '''
+    score_auc = roc_auc_score(y, y_pred)
+    score_f1 = f1_score(y, y_pred, average='micro')
+    score_precision = precision_score(y, y_pred, average='micro')
+    score_accuracy = accuracy_score(y, y_pred)
+    return {'score_auc': score_auc, 'score_f1': score_f1, 'score_precision': score_precision, 'score_accuracy': score_accuracy}
+
+
 if __name__ == "__main__":
-    y = np.random.rand(20)
-    y_pred = np.random.rand(20)
-    ur, dr = positive_comparision(y, y_pred)
+    print(__doc__)

@@ -4,7 +4,7 @@ import numpy as np
 from utils import Metrics
 from utils.FeatureEngineering import FatureEngineering
 from utils.RawData import RawData
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
 import pandas as pd
 from keras.utils import plot_model
@@ -30,7 +30,7 @@ feature_size = 17
 # feature_size = args.feature_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
-epochs = 10
+epochs = 20
 # epochs = args.epochs
 output_size = 1
 
@@ -99,17 +99,28 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         :param model:fitted model
         :return:
         """
-        X_all, y_all, scalers_all = FatureEngineering.train_val_test_split(X, y, scalers, train_size=0.7, validation_size=0.2)
-        pred_y_test = model.predict(X_all[2], batch_size=batch_size)
-        pred_y_train = model.predict(X_all[0], batch_size=batch_size)
-        pred_y_all = model.predict(X, batch_size=batch_size)
-        y_test_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], pred_y_test)]
-        y_train_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[0], pred_y_train)]
-        y_all_pred = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, pred_y_all)]
-        y_test_real = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], y_all[2])]
-        y_train_real = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[0], y_all[0])]
-        y_all_real = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers, y)]
-        # plt.plot(origin_y[int(X.shape[0]*0.9):], label='Real Index of SH000001 Modelled by Basic features')
+        def judge(k):
+            if k >= 0:
+                return 1
+            else:
+                return -1
+        pred_y = model.predict(X, batch_size=batch_size)
+        pred_y_reversed = np.array(
+            [scaler.inverse_transform(np.array([y] * feature_size).reshape(1, -1))[0, 1] for scaler, y in
+             zip(scalers, pred_y)])
+        pred_diff = pred_y_reversed - np.roll(pred_y_reversed, shift=1)
+        pred_up_down = list(map(judge, pred_diff))
+        y_reversed = np.array(
+            [scaler.inverse_transform(np.array([y] * feature_size).reshape(1, -1))[0, 1] for scaler, y in
+             zip(scalers, y)])
+        real_diff = y_reversed - np.roll(y_reversed, shift=1)
+        real_up_down = list(map(judge, real_diff))
+        y_all, y_pred_all = FatureEngineering.train_val_test_split(y_reversed, pred_y_reversed, train_size=0.7, validation_size=0.2)
+        y_train_pred, y_test_pred = y_pred_all[0], y_pred_all[2]
+        y_all_pred = pred_y_reversed
+        y_train_real, y_test_real = y_all[0], y_all[2]
+
+        y_all_real = y_reversed
         plt.subplot(311)
         plt.plot(y_test_real, label='Test Real Index of SH000001 ')
         plt.plot(y_test_pred, label='Train Real Index of SH000001 ')
@@ -124,7 +135,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         plt.title("Index of Real and Predicted")
         plt.legend(loc='best')
         plt.show()
-        return y_test_pred, y_train_pred, y_all_pred, y_test_real, y_train_real, y_all_real
+        return pred_up_down, real_up_down
 
 
 if __name__ == "__main__":
@@ -135,10 +146,9 @@ if __name__ == "__main__":
     y_train, y_val = y_all[0], y_all[1]
     strategy.fit(X_train, y_train, cell='lstm')
     evaluation_results = strategy.evaluation(X_val, y_val)
-    y_test_pred, y_train_pred, y_all_pred, y_test_real, y_train_real, y_all_real = strategy.plot_contract(strategy.model, X, y, scalers)
-    pur_test, pdr_test = Metrics.positive_comparision(y_test_real, y_test_pred)
-    nur_test, ndr_test = Metrics.negative_comparision(y_test_real, y_test_pred)
-    pur_train, pdr_train = Metrics.positive_comparision(y_train_real, y_train_pred)
-    nur_train, ndr_train = Metrics.negative_comparision(y_train_real, y_train_pred)
-    pur_all, pdr_all = Metrics.positive_comparision(y_all_real, y_all_pred)
-    nur_all, ndr_all = Metrics.negative_comparision(y_train_real, y_train_pred)
+    predicted_updown, real_updown = strategy.plot_contract(strategy.model, X, y, scalers)
+    predicted_all, real_all = FatureEngineering.train_val_test_split(predicted_updown, real_updown)
+    total_score = Metrics.all_classification_score(real_updown, predicted_updown)
+    train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
+    test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])
+

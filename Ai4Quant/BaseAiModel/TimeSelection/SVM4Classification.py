@@ -5,8 +5,9 @@ from utils.FeatureEngineering import FatureEngineering
 from utils.RawData import RawData
 from utils.Technical_Index import CalculateFeatures
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import roc_curve, auc, roc_auc_score, f1_score, precision_score, accuracy_score, classification_report
+from sklearn.metrics import classification_report
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
+from utils import Metrics
 
 
 feature_size = 17
@@ -19,8 +20,8 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y = FatureEngineering.multi_features_classification(tech_indexed_data)
-        return X, y
+        X, y, scaler = FatureEngineering.svm_multi_features_classification(tech_indexed_data)
+        return X, y, scaler
 
     def __build_model(self, C: float, gamma, kernel: str):
         """
@@ -62,8 +63,11 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         :return: Best tuned param
         """
         # param_grid = [{'C': [0.1, 1, 10, 100, 1000], 'kernel': ['linear']},
+        # param_grid = [
+        #     {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}
+        # ]
         param_grid = [
-            {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}
+            {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.1, 0.3, 1, 3, 10], 'kernel': ['rbf', 'sigmoid']}
         ]
         # scores = ['roc_auc', 'f1', 'precision', 'accuracy']
         # for score in scores:
@@ -118,8 +122,8 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = SVM4Classification()
-    X, y = strategy.get_feature_label()
-    X_all, y_all  = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    X, y, scaler = strategy.get_feature_label()
+    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
     top_params = []
     for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
@@ -130,16 +134,7 @@ if __name__ == "__main__":
     for params in top_params:
         strategy.fit(X_all[0], y_all[0], C=params['C'], gamma=params['gamma'], kernel=params['kernel'])
         y_pred = strategy.predict(X_all[2])
-        # real_y_test = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], y_all[2])]
-        # real_y_test = scaler.inverse_transform(y_all[2])
-        # pred_y_test = [scaler.inverse_transform(np.array([y]*feature_size).reshape(1, -1))[0, 1] for scaler, y in zip(scalers_all[2], y_pred)]
-        # pred_y_test = scaler.inverse_transform(y_pred)
-        fpr, tpr, thretholds = roc_curve(y_all[2], y_pred, pos_label=1)
-        score_auc = auc(fpr, tpr)
-        score_f1 = f1_score(y_all[2], y_pred)
-        score_precision = precision_score(y_all[2], y_pred)
-        score_accuracy = accuracy_score(y_all[2], y_pred)
-        predict_all[str(params)] = {'auc': score_auc, 'f1': score_f1, 'precision': score_precision, 'accuracy': score_accuracy}
+        predict_all[str(params)] = Metrics.all_classification_score(y_all[2], y_pred)
 
 
 

@@ -30,6 +30,7 @@ class FatureEngineering:
         :return:X, y
         """
         raw_data = raw_data.dropna(axis=0, how='any')
+        raw_data = raw_data.sort_index(ascending=False)
         features = raw_data.values
         length = raw_data.shape[0]
         seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
@@ -50,20 +51,20 @@ class FatureEngineering:
         X = np.array(X)
         y = [ob[step_size, 1]for ob in temp]
         y = np.array(y)
-        return X[::-1], y[::-1], scalers[::-1], origin_y[::-1]
+        return X, y, scalers, origin_y
 
     @staticmethod
-    def multi_features_classification(raw_data, step_size=1)->tuple:
+    def svm_multi_features_classification(raw_data, step_size=1)->tuple:
         """
         Split features and labels for SVM classification model
         :param raw_data: Features of DataFrame
         :return: X, y
         """
         raw_data = raw_data.dropna(axis=0, how='any')
-        close = raw_data.iloc[:, 1]
-        diff = close.pct_change().values
+        close = raw_data.iloc[:, 1].sort_index(ascending=False)
+        diff = close - close.shift(1)
 
-        def two_categorical(x:int)->int:
+        def two_categorical(x)->int:
             if x > 0:
                 return 1
             else:
@@ -86,7 +87,40 @@ class FatureEngineering:
         #     scalers.append(scaler)
         #     # item = FatureEngineering.dimension_reduction(item, remaining=10)
         #     scaled_X.append(item)
-        return X[::-1], y[::-1]
+        return X, y, scaler
+
+    @staticmethod
+    def lstm_multi_features_classification(raw_data, step_size=30):
+        """
+        对多FEATURES模型进行特征/target分离
+        :param raw_data: 原始数据
+        :param step_size: lstm步长
+        :return:X, y
+        """
+        raw_data = raw_data.dropna(axis=0, how='any')
+        close = raw_data.iloc[:, 1].sort_index(ascending=False)
+        diff = close - close.shift(1)
+
+        def two_categorical(x)->int:
+            if x > 0:
+                return 1
+            else:
+                return 0
+        labels = list(map(two_categorical, diff))
+        features = raw_data.values
+        length = raw_data.shape[0]
+        X = [features[i:i+step_size] for i in range(length - step_size - 1)]
+        y = np.array([labels[i+step_size] for i in range(length - step_size - 1)])
+        temp = []
+        for item in X:
+            try:
+                scaler = MinMaxScaler().fit(item)
+                scaled_item = scaler.transform(item)
+                temp.append(scaled_item)
+            except ValueError:
+                continue
+        X = np.array([FatureEngineering.cut_extreme(item) for item in temp])
+        return X, y
 
     @staticmethod
     def dimension_reduction(X: np.array, remaining=10)->np.array:
@@ -165,4 +199,5 @@ if __name__ == "__main__":
     # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
     # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(technical_indexed_data, step_size=30)
-    X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
+    # X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
+    X, y = FatureEngineering.lstm_multi_features_classification(technical_indexed_data, step_size=30)
