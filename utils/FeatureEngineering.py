@@ -22,7 +22,7 @@ class FatureEngineering:
         return X, y, scaler
 
     @staticmethod
-    def multi_features_regression(raw_data, step_size=30):
+    def multi_features_regressionN(raw_data, step_size=30, predict_day=2):
         """
         对多FEATURES模型进行特征/target分离
         :param raw_data: 原始数据
@@ -33,28 +33,26 @@ class FatureEngineering:
         raw_data = raw_data.sort_index(ascending=False)
         features = raw_data.values
         length = raw_data.shape[0]
-        seq = [features[i:i+step_size+1, :] for i in range(length - step_size - 1)]
-        # np.random.shuffle(seq) Not necessary here, because train_test_split can randomly select the train and test dataset
+        # seq = [features[i:i+step_size+predict_day, :] for i in range(length - step_size - predict_day)]
+        data_set = [np.concatenate((features[i:i+step_size, :], features[i+step_size+predict_day-1, :].reshape(1, -1))) for i in range(length - step_size - predict_day)]
         origin_y = []
         temp = []
         scalers = []
-        for item in seq:
+        for item in data_set:
             try:
-                origin_y.append(item[step_size, 1])
+                origin_y.append(item[-1, 1])
                 scaler = MinMaxScaler().fit(item)
                 scaled_item = scaler.transform(item)
                 temp.append(scaled_item)
                 scalers.append(scaler)
             except ValueError:
                 continue
-        X = [FatureEngineering.cut_extreme(item[:step_size, :]) for item in temp]
-        X = np.array(X)
-        y = [ob[step_size, 1]for ob in temp]
-        y = np.array(y)
+        X = np.array([FatureEngineering.cut_extreme(item[:step_size, :]) for item in temp])
+        y = np.array([item[-1, 1]for item in temp])
         return X, y, scalers, origin_y
 
     @staticmethod
-    def svm_multi_features_classification(raw_data, step_size=1)->tuple:
+    def svm_multi_features_classification(raw_data, step_size=1, labels='multiple')->tuple:
         """
         Split features and labels for SVM classification model
         :param raw_data: Features of DataFrame
@@ -63,13 +61,33 @@ class FatureEngineering:
         raw_data = raw_data.dropna(axis=0, how='any')
         close = raw_data.iloc[:, 1].sort_index(ascending=False)
         diff = close - close.shift(1)
+        change = close.pct_change()
+        big_up_quantile = change.quantile(0.8)
+        up_quantile = change.quantile(0.6)
+        down_quantile = change.quantile(0.4)
+        big_down_quantile = change.quantile(0.2)
 
-        def two_categorical(x)->int:
+        def binary_categorical(x)->int:
             if x > 0:
                 return 1
             else:
                 return -1
-        diff = list(map(two_categorical, diff))
+
+        def multi_categorical(x)->int:
+            if x > big_up_quantile:
+                return 2
+            elif up_quantile < x <= big_up_quantile:
+                return 1
+            elif down_quantile < x <= up_quantile:
+                return 0
+            elif big_down_quantile < x <= down_quantile:
+                return -1
+            elif x < big_down_quantile:
+                return -2
+        if labels == 'binary':
+            diff = list(map(binary_categorical, diff))
+        elif labels == 'multiple':
+            diff = list(map(multi_categorical, change))
         features = raw_data.values
         features = FatureEngineering.cut_extreme(features)
         scaler = StandardScaler()
@@ -88,6 +106,16 @@ class FatureEngineering:
         #     # item = FatureEngineering.dimension_reduction(item, remaining=10)
         #     scaled_X.append(item)
         return X, y, scaler
+
+
+
+    @staticmethod
+    def test_pct_diff(raw_data, step_size=1):
+        raw_data = raw_data.dropna(axis=0, how='any')
+        close = raw_data.iloc[:, 1].sort_index(ascending=False)
+        diff = close - close.shift(1)
+        cha = close.pct_change()
+        return diff, cha
 
     @staticmethod
     def lstm_multi_features_classification(raw_data, step_size=30):
@@ -198,6 +226,7 @@ if __name__ == "__main__":
     # X, y, scaler = FatureEngineering.rooling_single_object_regression(raw_data, 5, 6)
     # X, y, scalers = FatureEngineering.multi_features__regression(raw_data, step_size=30)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
-    # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(technical_indexed_data, step_size=30)
-    # X, y, scaler = FatureEngineering.multi_features_classification(technical_indexed_data, step_size=1)
-    X, y = FatureEngineering.lstm_multi_features_classification(technical_indexed_data, step_size=30)
+    # X, y, scalers, origin_y = FatureEngineering.multi_features_regressionN(technical_indexed_data, step_size=30, predict_day=1)
+    # X, y = FatureEngineering.lstm_multi_features_classification(technical_indexed_data, step_size=30)
+    # diff, cha = FatureEngineering.test_pct_diff(technical_indexed_data)
+    X, y, scaler = FatureEngineering.svm_multi_features_classification(technical_indexed_data, step_size=1)
