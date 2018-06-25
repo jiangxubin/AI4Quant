@@ -45,7 +45,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
         # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
-        X, y, scalers, origin_y = FatureEngineering.multi_features_regressionN(tech_indexed_data, step_size=step_size,
+        X, y, scalers, origin_y = FatureEngineering.lstm_multi_features_regressionN(tech_indexed_data, step_size=step_size,
                                                                                predict_day=predict_day)
         return X, y, scalers, origin_y
 
@@ -143,7 +143,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers, origin_y = strategy.get_feature_label(predict_day=2)
+    X, y, scalers, origin_y = strategy.get_feature_label(predict_day=5)
     X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.5, validation_size=0)
     X_train, X_val = X_all[0], X_all[1]
     y_train, y_val = y_all[0], y_all[1]

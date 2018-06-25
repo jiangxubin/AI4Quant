@@ -27,7 +27,8 @@ class RawData:
         encoding_2 = DataIO.DataIO.detect_encode_style(columns_path)
         encoding_2 = r'GB2312'
         col = pd.read_csv(columns_path, sep=r',', encoding=encoding_2, index_col=[0], header=[0])
-        df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']))
+        df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']), names=['Eng', 'Chn'])
+        df.index = df.iloc[:, 1]
         sh01 = df.iloc[:6593, 2:-1]
         return sh01
 

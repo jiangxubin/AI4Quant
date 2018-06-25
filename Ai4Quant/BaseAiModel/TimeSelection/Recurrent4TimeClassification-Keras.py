@@ -11,6 +11,7 @@ from keras.utils import plot_model
 from utils.Technical_Index import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 
+
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
 # parser.add_argument('hidden_units', type=int, help="Length of time steps of Sequence model", default=10)
@@ -32,7 +33,7 @@ dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
 epochs = 20
 # epochs = args.epochs
-output_size = 1
+output_size = 5
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
@@ -43,7 +44,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y = FatureEngineering.lstm_multi_features_classification(tech_indexed_data, step_size=step_size)
+        X, y = FatureEngineering.lstm_multi_features_classificationN(tech_indexed_data, step_size=step_size, categories=output_size)
         return X, y
 
     def __build_model(self):
@@ -58,10 +59,10 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         X = LSTM(hidden_units_2, return_sequences=False)(X)
         X = Dropout(rate=dropout_ratio)(X)
         X = Dense(output_size)(X)
-        y = Activation('sigmoid')(X)
+        y = Activation('softmax')(X)
 
         self.model = Model(inputs=[stock_feature], outputs=[y])
-        self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     def fit(self, X: np.array, y: np.array, X_val:np.array, y_val:np.array, cell='lstm'):
         """

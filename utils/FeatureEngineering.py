@@ -5,7 +5,7 @@ from keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from utils import Technical_Index
 from sklearn.decomposition import PCA
-from sklearn.model_selection import train_test_split
+from utils.float_to_categorical import multi_categorical
 
 
 class FatureEngineering:
@@ -22,11 +22,12 @@ class FatureEngineering:
         return X, y, scaler
 
     @staticmethod
-    def multi_features_regressionN(raw_data, step_size=30, predict_day=2):
+    def lstm_multi_features_regressionN(raw_data, step_size=30, predict_day=2):
         """
         对多FEATURES模型进行特征/target分离
         :param raw_data: 原始数据
         :param step_size: lstm步长
+        :param predict_day: 预测滞后天数
         :return:X, y
         """
         raw_data = raw_data.dropna(axis=0, how='any')
@@ -151,6 +152,36 @@ class FatureEngineering:
         return X, y
 
     @staticmethod
+    def lstm_multi_features_classificationN(raw_data, step_size=30, predict_day=2, categories=5):
+        """
+        对多FEATURES模型进行特征/target分离
+        :param raw_data: 原始数据
+        :param step_size: lstm步长
+        :param predict_day: 预测滞后天数
+        :return:X, y,scalers
+        """
+        raw_data = raw_data.dropna(axis=0, how='any')
+        raw_data = raw_data.sort_index(ascending=True)
+        close = raw_data.iloc[:, 1]
+        diff = close.pct_change(periods=1)
+        length = raw_data.shape[0]
+        raw_data = raw_data.values
+        features = [raw_data[i:i+step_size, :] for i in range(length-step_size-predict_day)]
+        labels = [diff[i+step_size+predict_day] for i in range(length-step_size-predict_day)]
+        labels_oh = multi_categorical(labels, categories)
+        scaled_features = []
+        scalers = []
+        for item in features:
+            scaler = MinMaxScaler().fit(item)
+            scaled_item = scaler.transform(item)
+            scaled_features.append(scaled_item)
+            scalers.append(scaler)
+        X = np.array(scaled_features)
+        y = labels_oh
+        return X, y, scalers
+
+
+    @staticmethod
     def dimension_reduction(X: np.array, remaining=10)->np.array:
         """
         Lower the dimension of features matrix by reduce the features which share some relativeness
@@ -228,5 +259,6 @@ if __name__ == "__main__":
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
     # X, y, scalers, origin_y = FatureEngineering.multi_features_regressionN(technical_indexed_data, step_size=30, predict_day=1)
     # X, y = FatureEngineering.lstm_multi_features_classification(technical_indexed_data, step_size=30)
+    X, y, scalers = FatureEngineering.lstm_multi_features_classificationN(technical_indexed_data, step_size=30, predict_day=3)
     # diff, cha = FatureEngineering.test_pct_diff(technical_indexed_data)
-    X, y, scaler = FatureEngineering.svm_multi_features_classification(technical_indexed_data, step_size=1)
+    # X, y, scaler = FatureEngineering.svm_multi_features_classification(technical_indexed_data, step_size=1)
