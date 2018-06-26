@@ -29,9 +29,9 @@ step_size = 30
 # feature_size = 7
 feature_size = 17
 # feature_size = args.feature_size
-dropout_ratio = 0.8
+dropout_ratio = 0.5
 # dropout_ratio = args.dropout_ratio
-epochs = 20
+epochs = 50
 # epochs = args.epochs
 output_size = 5
 
@@ -44,8 +44,8 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y = FatureEngineering.lstm_multi_features_classificationN(tech_indexed_data, step_size=step_size, categories=output_size)
-        return X, y
+        X, y, scalers = FatureEngineering.lstm_multi_features_classificationN(tech_indexed_data, step_size=step_size,predict_day=1, categories=output_size)
+        return X, y, scalers
 
     def __build_model(self):
         """
@@ -62,7 +62,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         y = Activation('softmax')(X)
 
         self.model = Model(inputs=[stock_feature], outputs=[y])
-        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        self.model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
     def fit(self, X: np.array, y: np.array, X_val:np.array, y_val:np.array, cell='lstm'):
         """
@@ -73,7 +73,8 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         """
         if cell == 'lstm':
             self.__build_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=epochs, validation_data=(X_val, y_val))
+            hist = self.model.fit(X, y, batch_size=batch_size, epochs=epochs, validation_data=(X_val, y_val))
+            return hist
 
     def evaluation(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
@@ -88,22 +89,12 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y = strategy.get_feature_label()
+    X, y, scalers = strategy.get_feature_label()
     X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
-    strategy.fit(X_train, y_train, cell='lstm', X_val=X_val, y_val=y_val)
+    history = strategy.fit(X_train, y_train, cell='lstm', X_val=X_val, y_val=y_val)
     evaluation_results = strategy.evaluation(X_val, y_val)
-    predicted = strategy.model.predict(X, batch_size=batch_size)
+    predicted = strategy.model.predict(X_test, batch_size=batch_size)
 
-    def prob_to_label(x):
-        if x > 0.5:
-            return 1
-        else:
-            return -1
-    predicted = np.array(list(map(prob_to_label, predicted)))
-    predicted_all, real_all = FatureEngineering.train_val_test_split(predicted, y)
-    total_score = Metrics.all_classification_score(y, predicted)
-    train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
-    test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])
 
