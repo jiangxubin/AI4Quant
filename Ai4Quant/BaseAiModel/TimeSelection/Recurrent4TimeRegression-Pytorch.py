@@ -1,5 +1,3 @@
-from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
-from keras.models import Model
 import numpy as np
 from utils import Metrics
 from utils.FeatureEngineering import FatureEngineering
@@ -7,10 +5,10 @@ from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
 import pandas as pd
-from keras.utils import plot_model
 from utils.Technical_Index import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
-
+from torch import optim, nn
+from torch.nn import functional as F
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -77,15 +75,6 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         if cell == 'lstm':
             self.__build_model()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
-            # self.model.save("Daul-LSTM-Regression.h5")
-            # self.model.save("ModelOutput/Daul-LSTM-Regression-Addtion-Features.h5")
-            # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
-        # elif cell == 'rnn':
-        #     self.__build_rnn_model_multi_features()
-        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
-        # elif cell == 'gru':
-        #     self.__build_gru_model_multi_features()
-        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
 
     def evaluation(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
@@ -141,6 +130,16 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         plt.show()
         return pred_up_down, real_up_down
 
+
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.bn1 = nn.BatchNorm1d()
+        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio)
+        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio)
+
+    def forward(self, *input):
+        
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
