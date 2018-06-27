@@ -2,7 +2,7 @@ from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
 from keras.models import Model
 import numpy as np
 from utils import Metrics
-from utils.FeatureEngineering import FatureEngineering
+from utils.FeatureEngineering import FeatureTarget4DL, Auxiliary
 from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ hidden_units_2 = 128
 step_size = 30
 # hidden_units = args.hidden_units
 # feature_size = 7
-feature_size = 17
+feature_size = 16
 # feature_size = args.feature_size
 dropout_ratio = 0.5
 # dropout_ratio = args.dropout_ratio
@@ -37,14 +37,14 @@ output_size = 5
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
-    def get_feature_label(self)->tuple:
+    def get_feature_label(self, index_name=r'sh000001', predict_day=2)->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         :return: DataFrame of raw data
         """
-        raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scalers = FatureEngineering.lstm_multi_features_classificationN(tech_indexed_data, step_size=step_size,predict_day=1, categories=output_size)
+        X, y, scalers = FeatureTarget4DL.feature_target4lstm_classification(tech_indexed_data, step_size=step_size,predict_day=predict_day, categories=output_size)
         return X, y, scalers
 
     def __build_model(self):
@@ -89,8 +89,8 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers = strategy.get_feature_label()
-    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    X, y, scalers = strategy.get_feature_label(r'sh000002')
+    X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
     history = strategy.fit(X_train, y_train, cell='lstm', X_val=X_val, y_val=y_val)

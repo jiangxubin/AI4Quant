@@ -2,7 +2,7 @@ from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
 from keras.models import Model
 import numpy as np
 from utils import Metrics
-from utils.FeatureEngineering import FatureEngineering
+from utils.FeatureEngineering import FeatureTarget4DL, Auxiliary
 from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
@@ -26,26 +26,26 @@ hidden_units_2 = 128
 step_size = 30
 # hidden_units = args.hidden_units
 # feature_size = 7
-feature_size = 17
+feature_size = 16
 # feature_size = args.feature_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
-epochs = 20
+epochs = 2
 # epochs = args.epochs
 output_size = 1
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, predict_day=2)->tuple:
+    def get_feature_label(self, index_name=r'sh000001', predict_day=2)->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         predict_day: predict close price of t+N day
         :return: DataFrame of raw data
         """
-        raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
         # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
-        X, y, scalers, origin_y = FatureEngineering.lstm_multi_features_regressionN(tech_indexed_data, step_size=step_size,
+        X, y, scalers, origin_y = FeatureTarget4DL.feature_target4lstm_regression(tech_indexed_data, step_size=step_size,
                                                                                predict_day=predict_day)
         return X, y, scalers, origin_y
 
@@ -118,7 +118,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
              zip(scalers, y)])
         real_diff = y_reversed - np.roll(y_reversed, shift=1)
         real_up_down = list(map(judge, real_diff))
-        y_all, y_pred_all = FatureEngineering.train_val_test_split(y_reversed, pred_y_reversed, train_size=0.7, validation_size=0.2)
+        y_all, y_pred_all = Auxiliary.train_val_test_split(y_reversed, pred_y_reversed, train_size=0.7, validation_size=0.2)
         y_train_pred, y_test_pred = y_pred_all[0], y_pred_all[2]
         y_all_pred = pred_y_reversed
         y_train_real, y_test_real = y_all[0], y_all[2]
@@ -144,13 +144,13 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 if __name__ == "__main__":
     strategy = Recurrent4Time()
     X, y, scalers, origin_y = strategy.get_feature_label(predict_day=5)
-    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.5, validation_size=0)
+    X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.5, validation_size=0)
     X_train, X_val = X_all[0], X_all[1]
     y_train, y_val = y_all[0], y_all[1]
     strategy.fit(X_train, y_train, cell='lstm')
     evaluation_results = strategy.evaluation(X_val, y_val)
     predicted_updown, real_updown = strategy.plot_contract(strategy.model, X, y, scalers)
-    predicted_all, real_all = FatureEngineering.train_val_test_split(predicted_updown, real_updown)
+    predicted_all, real_all = Auxiliary.train_val_test_split(predicted_updown, real_updown)
     total_score = Metrics.all_classification_score(real_updown, predicted_updown)
     train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
     test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])

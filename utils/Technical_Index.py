@@ -25,5 +25,5 @@ class CalculateFeatures:
 
 
 if __name__ == "__main__":
-    raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+    raw_data = RawData.get_raw_data('sh000002', r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
     t_i = CalculateFeatures.get_all_technical_index(raw_data)

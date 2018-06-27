@@ -88,4 +88,48 @@ def multi_features_regression(raw_data, step_size=30):
     X = np.array(X)
     y = [ob[step_size, 1]for ob in temp]
     y = np.array(y)
-return X, y, scalers, origin_y
+    return X, y, scalers, origin_y
+
+
+def rooling_single_object_regression(raw_data, window=5, step_size=6):
+    close = list(raw_data.iloc[:, 1])
+    close = np.array(close).reshape((-1, 1))
+    scaler = MinMaxScaler().fit(close)
+    close = list(scaler.transform(close))
+    seq = [close[i*window:(i+1)*window] for i in range(len(close)//window)]
+    X = np.array([seq[j:j+step_size] for j in range(len(seq)-step_size)]).squeeze()
+    y = np.array([seq[k+step_size]for k in range(len(seq)-step_size)]).squeeze()
+    # https://stackoverflow.com/questions/22053050/difference-between-numpy-array-shape-r-1-and-r
+    return X, y, scaler
+
+def lstm_multi_features_classification(raw_data, step_size=30):
+    """
+    对多FEATURES模型进行特征/target分离
+    :param raw_data: 原始数据
+    :param step_size: lstm步长
+    :return:X, y
+    """
+    raw_data = raw_data.dropna(axis=0, how='any')
+    close = raw_data.iloc[:, 1].sort_index(ascending=False)
+    diff = close - close.shift(1)
+
+    def two_categorical(x)->int:
+        if x > 0:
+            return 1
+        else:
+            return 0
+    labels = list(map(two_categorical, diff))
+    features = raw_data.values
+    length = raw_data.shape[0]
+    X = [features[i:i+step_size] for i in range(length - step_size - 1)]
+    y = np.array([labels[i+step_size] for i in range(length - step_size - 1)])
+    temp = []
+    for item in X:
+        try:
+            scaler = MinMaxScaler().fit(item)
+            scaled_item = scaler.transform(item)
+            temp.append(scaled_item)
+        except ValueError:
+            continue
+    X = np.array([FatureEngineering.cut_extreme(item) for item in temp])
+    return X, y

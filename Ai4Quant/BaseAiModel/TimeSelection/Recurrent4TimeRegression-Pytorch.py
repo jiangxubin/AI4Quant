@@ -9,6 +9,7 @@ from utils.Technical_Index import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 from torch import optim, nn
 from torch.nn import functional as F
+import torch
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -135,11 +136,21 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.bn1 = nn.BatchNorm1d()
-        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio)
-        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio)
+        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
+        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
+        self.fc = nn.Linear(in_features=hidden_units_2, out_features=output_size)
 
     def forward(self, *input):
-        
+        # Set initial hidden and cell states for lstm1
+        h0_1 = torch.zeros(1, batch_size, hidden_units_1)
+        c0_1 = torch.zeros(1, batch_size, hidden_units_1)
+        # Set initial hidden and cell states for lstm2
+        h0_2 = torch.zeros(1, batch_size, hidden_units_2)
+        c0_2 = torch.zeros(1, batch_size, hidden_units_2)
+        #
+
+
+
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()

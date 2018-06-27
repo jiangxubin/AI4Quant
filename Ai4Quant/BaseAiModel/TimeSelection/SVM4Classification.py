@@ -15,18 +15,16 @@ feature_size = 17
 
 
 class SVM4Classification(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, labels='multiple'):
+    def get_feature_label(self, index_name=r'sh000001', predict_day=2):
         """
         Prepare X(features matrix) and y(labels) for model training, validation, and test
         :return: X, y
         """
-        raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scaler = FatureEngineering.svm_multi_features_classification(tech_indexed_data, labels=labels)
-        if labels == 'multiple':
-            lb = LabelBinarizer()
-            y = lb.fit_transform(y)
-            # y = label_binarize(y, classes=[-2, -1, 0, 1, 2])
+        X, y, scaler = FatureEngineering.svm_multi_features_classification(tech_indexed_data)
+        lb = LabelBinarizer()
+        y = lb.fit_transform(y)
         return X, y, scaler
 
     def __build_model(self, C: float, gamma, kernel: str):
