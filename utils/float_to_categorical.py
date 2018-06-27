@@ -1,6 +1,7 @@
-'''
+"""
 Convert a float to categorical
-'''
+"""
+
 # RF:https://docs.scipy.org/doc/numpy/reference/generated/numpy.eye.html
 import numpy as np
 import pandas as pd

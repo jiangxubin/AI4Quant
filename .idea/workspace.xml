@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Pytorch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Deprecated/FeatureEngineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/Deprecated/FeatureEngineering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/FeatureEngineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/FeatureEngineering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/RawData.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/RawData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/Technical_Index.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/Technical_Index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/begin_iterator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/try_new_packages/begin_iterator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/begin_torch.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/try_new_packages/begin_torch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/cifar_torch.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/try_new_packages/cifar_torch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/float_to_categorical.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/float_to_categorical.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,18 +37,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Recurrent4TimeClassification-Keras.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1672">
-              <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
-              <folding>
-                <element signature="e#0#80#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SVM4Classification.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,13 +49,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeatureEngineering.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+      <file leaf-file-name="Recurrent4TimeRegression-Keras.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3135">
-              <caret line="165" column="63" lean-forward="true" selection-start-line="165" selection-start-column="63" selection-end-line="165" selection-end-column="63" />
+            <state relative-caret-position="171">
+              <caret line="30" column="19" lean-forward="true" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
               <folding>
-                <element signature="e#0#33#0" expanded="true" />
+                <element signature="e#0#80#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -147,7 +124,6 @@
         <option value="$PROJECT_DIR$/Referrence/Ai_Trade_Paper.md" />
         <option value="$PROJECT_DIR$/utils/feature_computation.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseRecurrent4Rgression-Keras.py" />
-        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" />
         <option value="$PROJECT_DIR$/utils/Metrics.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/StockSelection/BaseStrategy.py" />
@@ -171,12 +147,13 @@
         <option value="$PROJECT_DIR$/utils/begin_itertools.py" />
         <option value="$PROJECT_DIR$/utils/Technical_Index.py" />
         <option value="$PROJECT_DIR$/utils/RawData.py" />
-        <option value="$PROJECT_DIR$/utils/float_to_categorical.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" />
         <option value="$PROJECT_DIR$/Deprecated/FeatureEngineering.py" />
         <option value="$PROJECT_DIR$/utils/FeatureEngineering.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py" />
         <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeClassification-Keras.py" />
+        <option value="$PROJECT_DIR$/utils/float_to_categorical.py" />
+        <option value="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py" />
       </list>
     </option>
   </component>
@@ -233,6 +210,13 @@
               <item name="DX" type="462c0819:PsiDirectoryNode" />
               <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
               <item name="BaseAiModel" type="462c0819:PsiDirectoryNode" />
+              <item name="StockSelection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DX" type="462c0819:PsiDirectoryNode" />
+              <item name="Ai4Quant" type="462c0819:PsiDirectoryNode" />
+              <item name="BaseAiModel" type="462c0819:PsiDirectoryNode" />
               <item name="TimeSelection" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -255,12 +239,6 @@
               <item name="DX" type="b2602c69:ProjectViewProjectNode" />
               <item name="DX" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DX" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="try_new_packages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DX" type="b2602c69:ProjectViewProjectNode" />
@@ -466,6 +444,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32795697" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32874355" />
@@ -474,7 +453,7 @@
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.4265233" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.24910395" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32909092" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.39531124" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2813258" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.3292978" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32437277" />
@@ -528,11 +507,6 @@
           <url>file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py</url>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/float_to_categorical.py</url>
-          <line>4</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -541,14 +515,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="39" column="11" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/ModelOutput/Tuning results of SVM hyperparameters" />
     <entry file="file://$PROJECT_DIR$/Ai4Quant/ModelOutput/Tuning SVM hyperparameters.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -598,20 +564,6 @@
             <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/Metrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="59" column="40" lean-forward="true" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/StockSelection/BaseStrategy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -785,11 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/DataIO.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-456" />
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
@@ -823,16 +770,6 @@
           <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/float_to_categorical.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="60" column="2" selection-start-line="60" selection-start-column="2" selection-end-line="61" selection-end-column="67" />
-          <folding>
-            <element signature="e#112#130#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -871,13 +808,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
+    <entry file="file://$PROJECT_DIR$/utils/float_to_categorical.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="30" column="19" lean-forward="true" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+        <state relative-caret-position="-904">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
           <folding>
-            <element signature="e#0#80#0" expanded="true" />
+            <element signature="e#118#136#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/Metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="59" column="40" lean-forward="true" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -891,6 +835,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/Huge_column.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/DataIO.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1615">
@@ -901,12 +864,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/FeatureEngineering.py">
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/BaseStrategy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3135">
-          <caret line="165" column="63" lean-forward="true" selection-start-line="165" selection-start-column="63" selection-end-line="165" selection-end-column="63" />
+        <state relative-caret-position="76">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/StockSelection/BaseStrategy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4TimeRegression-Keras.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="30" column="19" lean-forward="true" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#0#80#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,6 +2,7 @@
 Base strategy for time selection which must be implemented detailed by its subclass
 """
 
+
 class BaseStrategy:
     def __init__(self):
         self.model = None
