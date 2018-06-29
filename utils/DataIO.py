@@ -16,6 +16,11 @@ project_path = r'E:\\DX'
 class DataIO:
     @staticmethod
     def detect_encode_style(file_path):
+        '''
+        Detect the file code style
+        :param file_path:
+        :return:
+        '''
         with open(file_path, 'rb') as f:
             lines = f.readlines()
             res = chardet.detect(lines[0])
@@ -47,6 +52,32 @@ class DataIO:
         pd.to_pickle(res_df, path='stock_daily_price.pkl')
         return res_df
 
+    @staticmethod
+    def strip_df(df_object: pd.DataFrame)->pd.DataFrame:
+        """
+        Remove blank str like \t \n from dataframe
+        :param df_object:
+        :return: Non-blank dataframe
+        """
+        df_str = df_object.select_dtypes(include=['object'])
+        df_object[df_str.columns] = df_str.applymap(lambda x: x.strip(r' '))
+        return df_object
+
+    @staticmethod
+    def strip_df_1(df_object: pd.DataFrame)->pd.DataFrame:
+        """
+        Remove blank str like \t \n from dataframe
+        :param df_object:
+        :return: Non-blank dataframe
+        """
+        df_object.applymap(lambda x: x.strip(r'\t\n') if x is str else x)
+        return df_object
+# 1. https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.select_dtypes.html#pandas.DataFrame.select_dtypes
+# 2. https://stackoverflow.com/questions/40950310/strip-trim-all-strings-of-a-dataframe
+# 3. https://stackoverflow.com/questions/19798153/difference-between-map-applymap-and-apply-methods-in-pandas
 
 if __name__ == "__main__":
-    print(None)
+    df_col = pd.read_csv(r'E:\DX\HugeData\Index\nature_columns.csv', encoding=r'GB2312')
+    df_o = DataIO.strip_df(df_col)
+    df_o_1 = DataIO.strip_df_1(df_col)
+

@@ -37,7 +37,7 @@ output_size = 5
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, index_name=r'sh000001', predict_day=2)->tuple:
+    def get_feature_target(self, index_name=r'sh000001', predict_day=2)->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         :return: DataFrame of raw data
@@ -89,7 +89,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers = strategy.get_feature_label(r'sh000002')
+    X, y, scalers = strategy.get_feature_target(r'sh000002')
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]

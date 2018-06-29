@@ -2,7 +2,7 @@ from sklearn.svm import SVC
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 import pandas as pd
 import numpy as np
-from utils.FeatureEngineering import FatureEngineering
+from utils.FeatureEngineering import FeatureTarget4ML
 from utils.RawData import RawData
 from utils.Technical_Index import CalculateFeatures
 from sklearn.model_selection import GridSearchCV
@@ -22,7 +22,7 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         """
         raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scaler = FatureEngineering.svm_multi_features_classification(tech_indexed_data)
+        X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(tech_indexed_data)
         lb = LabelBinarizer()
         y = lb.fit_transform(y)
         return X, y, scaler

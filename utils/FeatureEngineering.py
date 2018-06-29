@@ -23,7 +23,7 @@ class FeatureTarget4DL:
         features = raw_data.values
         length = raw_data.shape[0]
         # seq = [features[i:i+step_size+predict_day, :] for i in range(length - step_size - predict_day)]
-        data_set = [np.concatenate((features[i:i+step_size, :], features[i+step_size+predict_day-1, :].reshape(1, -1))) for i in range(length - step_size - predict_day)]
+        data_set = [np.concatenate((features[i:i+step_size, :], features[i+step_size+predict_day-1, :].reshape(1, -1))) for i in range(length - step_size - predict_day+1)]
         origin_y = []
         temp = []
         scalers = []
@@ -32,13 +32,45 @@ class FeatureTarget4DL:
                 origin_y.append(item[-1, 1])
                 scaler = MinMaxScaler().fit(item)
                 scaled_item = scaler.transform(item)
-                temp.append(scaled_item)
+                cut_item = Auxiliary.cut_extreme(scaled_item)
+                temp.append(cut_item)
                 scalers.append(scaler)
             except ValueError:
                 continue
         X = np.array([Auxiliary.cut_extreme(item[:step_size, :]) for item in temp])
         y = np.array([item[-1, 1]for item in temp])
         return X, y, scalers, origin_y
+
+    @staticmethod
+    def feature_target4lstm_ratio_regression(raw_data, step_size=30, predict_day=2):
+        """
+        对多FEATURES模型进行特征/target分离
+        :param raw_data: 原始数据
+        :param step_size: lstm步长
+        :param predict_day: 预测滞后天数
+        :return:X, y
+        """
+        raw_data = raw_data.dropna(axis=0, how='any')
+        target = raw_data.loc[:, 'change']
+        # features = raw_data.drop(labels=['change'], axis=1)
+        length = raw_data.shape[0]
+        raw_value = raw_data.drop(labels=['change'], axis=1).values
+        features_dataset = [raw_value[i:i+step_size] for i in range(length-step_size-predict_day+1)]
+        target_dataset = [target[i+step_size+predict_day-1] for i in range(length-step_size-predict_day+1)]
+        target_dataset = np.array(target_dataset).reshape(-1,  1)
+        scaled_features = []
+        feature_scalers = []
+        for item in features_dataset:
+            scaler = MinMaxScaler().fit(item)
+            scaled_item = scaler.transform(item)
+            scaled_features.append(scaled_item)
+            feature_scalers.append(scaler)
+        X = np.array(scaled_features)
+        target_scaler = StandardScaler().fit(target_dataset)
+        scaled_target = target_scaler.transform(target_dataset)
+        cut_target = Auxiliary.cut_extreme(scaled_target)
+        y = np.array(cut_target)
+        return X, y, feature_scalers, target_scaler
 
     @staticmethod
     def feature_target4lstm_classification(raw_data, step_size=30, predict_day=2, categories=5):
@@ -55,8 +87,8 @@ class FeatureTarget4DL:
         diff = close.pct_change(periods=1)
         length = raw_data.shape[0]
         raw_data = raw_data.values
-        features = [raw_data[i:i+step_size, :] for i in range(length-step_size-predict_day)]
-        labels = [diff[i+step_size+predict_day] for i in range(length-step_size-predict_day)]
+        features = [raw_data[i:i+step_size, :] for i in range(length-step_size-predict_day+1)]
+        labels = [diff[i+step_size+predict_day-1] for i in range(length-step_size-predict_day+1)]
         scaled_features = []
         scalers = []
         for item in features:
@@ -66,7 +98,7 @@ class FeatureTarget4DL:
             scalers.append(scaler)
         X = np.array(scaled_features)
         # labels_oh = multi_categorical_pct(labels, categories)
-        labels_oh = multi_categorical_value(X, labels, categories)
+        labels_oh = multi_categorical_value(labels, categories)
         y = labels_oh
         return X, y, scalers
 
@@ -103,14 +135,14 @@ class Auxiliary:
         return X
 
     @staticmethod
-    def cut_extreme(features: np.array)->np.array:
+    def cut_extreme(features: any)->np.array:
         """
         Remove extreme value to the extent of mean+_3*std
         :param features: Array of features
         :return: processed features
         """
-        features_mean = np.mean(features, axis=1)
-        features_std = np.std(features, axis=1)
+        features_mean = np.mean(features, axis=0)
+        features_std = np.std(features, axis=0)
         features_pos_limit = features_mean + 3*features_std
         features_neg_limit = features_mean - 3*features_std
         for i in range(features.shape[1]):
@@ -163,9 +195,10 @@ class Auxiliary:
 
 
 if __name__ == "__main__":
-    raw_data = RawData.RawData.get_raw_data(index_name=r'sh000002')
+    raw_data = RawData.RawData.get_raw_data(index_name=r'sh000002', ratio=True)
     technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
     # X, y, scalers, origin_y = FeatureTarget4DL.feature_target4lstm_regression(technical_indexed_data, step_size=30, predict_day=1)
     # X, y, scalers = FeatureTarget4DL.feature_target4lstm_classification(technical_indexed_data, step_size=30, predict_day=3)
     # diff, cha = Auxiliary.test_pct_diff(technical_indexed_data)
-    X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(technical_indexed_data, predict_day=2)
+    # X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(technical_indexed_data, predict_day=2)
+    X, y, X_sc, y_sc = FeatureTarget4DL.feature_target4lstm_ratio_regression(technical_indexed_data, step_size=30, predict_day=2)

@@ -16,12 +16,14 @@ project_path = r'E:\\DX'
 
 class RawData:
     @staticmethod
-    def get_raw_data(index_name=None, path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04'):
+    def get_raw_data(index_name=None, path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04', ratio=False ):
         """
         Load index data and produce Input data
         :param index_name:specified index to query
         :param path:Path of csv file
         :param columns_path:path of processed columns
+        :param latest_date: split date of different index
+        :param ratio: whether to include the down/up ratio as features
         :return:list of input data
         """
         encoding_1 = DataIO.DataIO.detect_encode_style(path)
@@ -30,22 +32,36 @@ class RawData:
         # encoding_2 = DataIO.DataIO.detect_encode_style(columns_path)
         encoding_2 = r'GB2312'
         col = pd.read_csv(columns_path, sep=r',', encoding=encoding_2, index_col=[0], header=[0])
-        df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']), names=['Eng', 'Chn'])
+        # df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']), names=['Eng', 'Chn'])
+        df.columns = col['Feature']
         df.index = df.iloc[:, 1]
         date_judge = df.index.get_loc(latest_date)
         index_date_index = list(compress(np.arange(len(date_judge)), date_judge))
         all_index_data = {}
-        for i in range(len(index_date_index)):
-            index_code = df.iloc[index_date_index[i], 0]
-            try:
-                index_data = df.iloc[index_date_index[i]:index_date_index[i+1], 2:-2]
-            except IndexError:
-                index_data = df.iloc[index_date_index[i]:, 2:-2]
-            all_index_data[index_code] = index_data.iloc[::-1]
-        if index_name:
-            return all_index_data[index_name]
+        if not ratio:
+            for i in range(len(index_date_index)):
+                index_code = df.iloc[index_date_index[i], 0]
+                try:
+                    index_data = df.iloc[index_date_index[i]:index_date_index[i+1], 2:-2]
+                except IndexError:
+                    index_data = df.iloc[index_date_index[i]:, 2:-2]
+                all_index_data[index_code] = index_data.iloc[::-1]
+            if index_name:
+                return all_index_data[index_name]
+            else:
+                return all_index_data
         else:
-            return all_index_data
+            for i in range(len(index_date_index)):
+                index_code = df.iloc[index_date_index[i], 0]
+                try:
+                    index_data = df.iloc[index_date_index[i]:index_date_index[i+1], 2:-1]
+                except IndexError:
+                    index_data = df.iloc[index_date_index[i]:, 2:-1]
+                all_index_data[index_code] = index_data.iloc[::-1]
+            if index_name:
+                return all_index_data[index_name]
+            else:
+                return all_index_data
 
     @staticmethod
     def get_raw_data_classification(path=r'E:\DX\HugeData\Index\test.csv'):

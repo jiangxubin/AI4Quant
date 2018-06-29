@@ -1,5 +1,3 @@
-from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
-from keras.models import Model
 import numpy as np
 from utils import Metrics
 from utils.FeatureEngineering import FeatureTarget4DL, Auxiliary
@@ -7,9 +5,11 @@ from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
 import pandas as pd
-from keras.utils import plot_model
 from utils.Technical_Index import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
+from torch import optim, nn
+from torch.nn import functional as F
+import torch
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -26,23 +26,23 @@ hidden_units_2 = 128
 step_size = 30
 # hidden_units = args.hidden_units
 # feature_size = 7
-feature_size = 16
+feature_size = 17
 # feature_size = args.feature_size
 dropout_ratio = 0.8
 # dropout_ratio = args.dropout_ratio
-epochs = 2
+epochs = 20
 # epochs = args.epochs
 output_size = 1
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, index_name=r'sh000001', predict_day=2)->tuple:
+    def get_feature_target(self, predict_day=2)->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         predict_day: predict close price of t+N day
         :return: DataFrame of raw data
         """
-        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
         # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
         X, y, scalers, origin_y = FeatureTarget4DL.feature_target4lstm_regression(tech_indexed_data, step_size=step_size,
@@ -76,15 +76,6 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         if cell == 'lstm':
             self.__build_model()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
-            # self.model.save("Daul-LSTM-Regression.h5")
-            # self.model.save("ModelOutput/Daul-LSTM-Regression-Addtion-Features.h5")
-            # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
-        # elif cell == 'rnn':
-        #     self.__build_rnn_model_multi_features()
-        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
-        # elif cell == 'gru':
-        #     self.__build_gru_model_multi_features()
-        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
 
     def evaluation(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
@@ -141,9 +132,29 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         return pred_up_down, real_up_down
 
 
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.bn1 = nn.BatchNorm1d()
+        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
+        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
+        self.fc = nn.Linear(in_features=hidden_units_2, out_features=output_size)
+
+    def forward(self, *input):
+        # Set initial hidden and cell states for lstm1
+        h0_1 = torch.zeros(1, batch_size, hidden_units_1)
+        c0_1 = torch.zeros(1, batch_size, hidden_units_1)
+        # Set initial hidden and cell states for lstm2
+        h0_2 = torch.zeros(1, batch_size, hidden_units_2)
+        c0_2 = torch.zeros(1, batch_size, hidden_units_2)
+        #
+
+
+
+
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers, origin_y = strategy.get_feature_label(predict_day=5)
+    X, y, scalers, origin_y = strategy.get_feature_target(predict_day=5)
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.5, validation_size=0)
     X_train, X_val = X_all[0], X_all[1]
     y_train, y_val = y_all[0], y_all[1]

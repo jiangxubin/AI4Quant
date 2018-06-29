@@ -7,7 +7,7 @@ class BaseStrategy:
     def __init__(self):
         self.model = None
 
-    def get_feature_label(self, *args, **kwargs)->tuple:
+    def get_feature_target(self, *args, **kwargs)->tuple:
         """
         Get X for feature and y for label when everyday has a single feature
         :return: DataFrame of raw data

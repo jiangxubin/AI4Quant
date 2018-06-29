@@ -1,15 +1,15 @@
+from keras.layers import LSTM, SimpleRNN, GRU, Dense, Activation, Input, Dropout
+from keras.models import Model
 import numpy as np
 from utils import Metrics
-from utils.FeatureEngineering import FatureEngineering
+from utils.FeatureEngineering import FeatureTarget4DL, Auxiliary
 from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
 import pandas as pd
+from keras.utils import plot_model
 from utils.Technical_Index import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
-from torch import optim, nn
-from torch.nn import functional as F
-import torch
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('batch_size', type=int, help="Number of examples of each Bacth", default=32)
@@ -36,17 +36,15 @@ output_size = 1
 
 
 class Recurrent4Time(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, predict_day=2)->tuple:
+    def get_feature_target(self, index_name=r'sz399001', predict_day=2)->tuple:
         """
         Get X for feature and y for label when everydayy has multi features
         predict_day: predict close price of t+N day
         :return: DataFrame of raw data
         """
-        raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv', ratio=True)
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        # X, y, scalers, origin_y = FatureEngineering.multi_features_regression(tech_indexed_data, step_size=step_size)
-        X, y, scalers, origin_y = FatureEngineering.lstm_multi_features_regressionN(tech_indexed_data, step_size=step_size,
-                                                                               predict_day=predict_day)
+        X, y, scalers, origin_y = FeatureTarget4DL.feature_target4lstm_regression(tech_indexed_data, step_size=step_size, predict_day=2)
         return X, y, scalers, origin_y
 
     def __build_model(self):
@@ -54,8 +52,8 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         Build the LSTM model for traning with keras when everydayy has multi features
         :return: model
         """
-        stock_feature = Input(shape=(step_size, feature_size))
-        X = LSTM(hidden_units_1, return_sequences=True)(stock_feature)
+        index_feature = Input(shape=(step_size, feature_size))
+        X = LSTM(hidden_units_1, return_sequences=True)(index_feature)
         # 如果要堆叠LSTM, return_sequences必须设置为True，否则只有时间刻度最后的那个输出，不足以传递给下一层LSTM层
         X = Dropout(rate=dropout_ratio)(X)
         X = LSTM(hidden_units_2, return_sequences=False)(X)
@@ -63,7 +61,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         X = Dense(output_size)(X)
         y = Activation('linear')(X)
 
-        self.model = Model(inputs=[stock_feature], outputs=[y])
+        self.model = Model(inputs=[index_feature], outputs=[y])
         self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape', 'cosine'])
 
     def fit(self, X: np.array, y: np.array, cell='lstm'):
@@ -71,11 +69,21 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         Train the LSTM model defined bove
         :param X: DataFrame of Feature
         :param y: DataFrame of labelLSTM4Time-Keras.py
+        :param cell: type of neuron cell,default lstm
         :return: None
         """
         if cell == 'lstm':
             self.__build_model()
             self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+            # self.model.save("Daul-LSTM-Regression.h5")
+            # self.model.save("ModelOutput/Daul-LSTM-Regression-Addtion-Features.h5")
+            # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
+        # elif cell == 'rnn':
+        #     self.__build_rnn_model_multi_features()
+        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+        # elif cell == 'gru':
+        #     self.__build_gru_model_multi_features()
+        #     self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
 
     def evaluation(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
@@ -86,6 +94,13 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         """
         eve_result = self.model.evaluate(X_val, y_val, batch_size=batch_size)
         return eve_result
+
+    def predict(self, X: np.array)->np.array:
+        """
+        Return predicted results of trained model
+        :return: predicted results
+        """
+        return self.model.predict(X, batch_size=batch_size, verbose=2)
 
     def plot_contract(self, model, X, y, scalers):
         """
@@ -109,7 +124,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
              zip(scalers, y)])
         real_diff = y_reversed - np.roll(y_reversed, shift=1)
         real_up_down = list(map(judge, real_diff))
-        y_all, y_pred_all = FatureEngineering.train_val_test_split(y_reversed, pred_y_reversed, train_size=0.7, validation_size=0.2)
+        y_all, y_pred_all = Auxiliary.train_val_test_split(y_reversed, pred_y_reversed, train_size=0.7, validation_size=0.2)
         y_train_pred, y_test_pred = y_pred_all[0], y_pred_all[2]
         y_all_pred = pred_y_reversed
         y_train_real, y_test_real = y_all[0], y_all[2]
@@ -132,36 +147,17 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         return pred_up_down, real_up_down
 
 
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.bn1 = nn.BatchNorm1d()
-        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
-        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
-        self.fc = nn.Linear(in_features=hidden_units_2, out_features=output_size)
-
-    def forward(self, *input):
-        # Set initial hidden and cell states for lstm1
-        h0_1 = torch.zeros(1, batch_size, hidden_units_1)
-        c0_1 = torch.zeros(1, batch_size, hidden_units_1)
-        # Set initial hidden and cell states for lstm2
-        h0_2 = torch.zeros(1, batch_size, hidden_units_2)
-        c0_2 = torch.zeros(1, batch_size, hidden_units_2)
-        #
-
-
-
-
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers, origin_y = strategy.get_feature_label(predict_day=5)
-    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.5, validation_size=0)
-    X_train, X_val = X_all[0], X_all[1]
-    y_train, y_val = y_all[0], y_all[1]
+    X, y, scalers, origin_y = strategy.get_feature_target(predict_day=5)
+    X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.5, validation_size=0)
+    X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
+    y_train, y_val, y_test = y_all[0], y_all[1], X_all[2]
     strategy.fit(X_train, y_train, cell='lstm')
     evaluation_results = strategy.evaluation(X_val, y_val)
+    predicted_results = strategy.predict(X_test)
     predicted_updown, real_updown = strategy.plot_contract(strategy.model, X, y, scalers)
-    predicted_all, real_all = FatureEngineering.train_val_test_split(predicted_updown, real_updown)
+    predicted_all, real_all = Auxiliary.train_val_test_split(predicted_updown, real_updown)
     total_score = Metrics.all_classification_score(real_updown, predicted_updown)
     train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
     test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])

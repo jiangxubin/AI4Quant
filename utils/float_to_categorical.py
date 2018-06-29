@@ -35,7 +35,7 @@ def multi_categorical_pct(x: np.array, category=5) ->np.array:
     return target_oh
 
 
-def multi_categorical_value(features:np.array, x: np.array, category=5) ->np.array:
+def multi_categorical_value(x: np.array, category=5) ->np.array:
     '''
     Convert given array of percentage change to categorical matrix
     :param x: array of percentage change
