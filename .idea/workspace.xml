@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ad86884-d0a1-410f-bf86-851fab5d1818" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4PriceRegression-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4PriceRegression-Keras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4RatioClassification-Keras.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/Recurrent4RatioClassification-Keras.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/XGB4Classification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/FeatureEngineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/FeatureEngineering.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,8 +39,8 @@
       <file leaf-file-name="SVM4Classification.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1600">
-              <caret line="124" column="19" lean-forward="true" selection-start-line="124" selection-start-column="19" selection-end-line="124" selection-end-column="19" />
+            <state relative-caret-position="308">
+              <caret line="126" column="37" lean-forward="true" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -174,8 +169,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-71" />
-    <option name="y" value="46" />
+    <option name="x" value="39" />
+    <option name="y" value="25" />
     <option name="width" value="1946" />
     <option name="height" value="1106" />
   </component>
@@ -443,7 +438,7 @@
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.4265233" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.095" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32909092" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20742534" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28652138" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32902184" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32437277" />
@@ -910,8 +905,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Ai4Quant/BaseAiModel/TimeSelection/SVM4Classification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1600">
-          <caret line="124" column="19" lean-forward="true" selection-start-line="124" selection-start-column="19" selection-end-line="124" selection-end-column="19" />
+        <state relative-caret-position="308">
+          <caret line="126" column="37" lean-forward="true" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

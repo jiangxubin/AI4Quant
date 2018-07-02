@@ -10,6 +10,7 @@ from sklearn.metrics import classification_report
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 from utils import Metrics
 from sklearn.preprocessing import LabelBinarizer, label_binarize
+from sklearn.metrics import accuracy_score, precision_score, f1_score
 
 feature_size = 17
 
@@ -52,11 +53,11 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         self.__build_model(C, gamma, kernel)
         self.model.fit(X, y)
 
-    def predict(self, X: np.array):
+    def predict(self, X:np.array):
         """
         Predict the distance between example and seperating hyperplane which is equal to label
-        :param example: np array of shape(n, 1)
-        :return: laebl
+        :param X: feature array of shape(n, 1)
+        :return: label
         """
         pred = self.model.predict(X)
         return pred
@@ -121,7 +122,13 @@ if __name__ == "__main__":
     strategy = SVM4Classification()
     X, y, scaler = strategy.get_feature_target(index_name=r'sh000002', predict_day=5)
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
-    
+    X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
+    y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
+    strategy.fit(X_train, y_train)
+    y_pred = strategy.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    prc = precision_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
     # cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
     # top_params = []
     # for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
