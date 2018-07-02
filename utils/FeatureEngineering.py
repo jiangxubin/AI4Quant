@@ -79,12 +79,14 @@ class FeatureTarget4DL:
         :param raw_data: 原始数据
         :param step_size: lstm步长
         :param predict_day: 预测滞后天数
+        :param categories: 分类数目
         :return:X, y,scalers
         """
         raw_data = raw_data.dropna(axis=0, how='any')
         # raw_data = raw_data.sort_index(ascending=True)
-        close = raw_data.iloc[:, 1]
-        diff = close.pct_change(periods=1)
+        # close = raw_data.iloc[:, 1]
+        # diff = close.pct_change(periods=1)
+        diff = raw_data.loc[:, 'change']
         length = raw_data.shape[0]
         raw_data = raw_data.values
         features = [raw_data[i:i+step_size, :] for i in range(length-step_size-predict_day+1)]
@@ -105,13 +107,33 @@ class FeatureTarget4DL:
 
 class FeatureTarget4ML:
     @staticmethod
-    def feature_target4svm_classification(raw_data, predict_day=2):
+    def feature_target4svm_classification(raw_data, step_size=1, predict_day=2, categories=5):
         """
         Split features and labels for SVM classification model
         :param raw_data: Features of DataFrame
-        :return: X, y
+        :param step_size: num of previous day used to predict the up/down categories
+        :param predict_day: lagging days for predicting
+        :param categories: 分类数目
+        :return: X,y : features and labels
         """
-        return X, y, scaler
+        raw_data = raw_data.dropna(axis=0, how='any')
+        diff = raw_data.loc[:, 'change']
+        length = raw_data.shape[0]
+        raw_data = raw_data.values
+        features = [raw_data[i:i+step_size, :] for i in range(length-step_size-predict_day+1)]
+        labels = [diff[i+step_size+predict_day-1] for i in range(length-step_size-predict_day+1)]
+        scaled_features = []
+        scalers = []
+        for item in features:
+            scaler = MinMaxScaler().fit(item)
+            scaled_item = scaler.transform(item)
+            scaled_features.append(scaled_item)
+            scalers.append(scaler)
+        X = np.array(scaled_features)
+        X = X.flatten()
+        labels_oh = multi_categorical_value(labels, categories)
+        y = labels_oh
+        return X, y, scalers
 
 
 class Auxiliary:

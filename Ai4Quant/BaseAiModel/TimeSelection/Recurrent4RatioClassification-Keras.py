@@ -88,13 +88,19 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 
 if __name__ == "__main__":
+    # 初始化模型对象
     strategy = Recurrent4Time()
+    # 制定股指名称，预测滞后天数，获取指定股指的特征和标签 以及标签的缩放特征
     X, y, scalers = strategy.get_feature_target(r'sh000002')
+    # 将获得的特征和标签划分为训练集，验证集，测试集
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
+    # 利用训练集训练模型并获得训练过程中的历史数据
     history = strategy.fit(X_train, y_train, cell='lstm', X_val=X_val, y_val=y_val)
+    # 在验证集上评价各类metrics
     evaluation_results = strategy.evaluation(X_val, y_val)
+    # 在测试集上进行预测
     predicted = strategy.model.predict(X_test, batch_size=batch_size)
 
 

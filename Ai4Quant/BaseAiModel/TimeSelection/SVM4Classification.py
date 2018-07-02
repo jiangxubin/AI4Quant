@@ -1,8 +1,8 @@
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC, SVC
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 import pandas as pd
 import numpy as np
-from utils.FeatureEngineering import FeatureTarget4ML
+from utils.FeatureEngineering import FeatureTarget4ML, Auxiliary
 from utils.RawData import RawData
 from utils.Technical_Index import CalculateFeatures
 from sklearn.model_selection import GridSearchCV
@@ -15,7 +15,7 @@ feature_size = 17
 
 
 class SVM4Classification(BaseStrategy.BaseStrategy):
-    def get_feature_label(self, index_name=r'sh000001', predict_day=2):
+    def get_feature_target(self, index_name=r'sh000001', predict_day=2):
         """
         Prepare X(features matrix) and y(labels) for model training, validation, and test
         :return: X, y
@@ -119,16 +119,17 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = SVM4Classification()
-    X, y, scaler = strategy.get_feature_label(labels='multiple')
-    X_all, y_all = FatureEngineering.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
-    cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
-    top_params = []
-    for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
-        params = cv_results_df[cv_results_df[top] == 1]['params'].values[0]
-        # print(params)
-        top_params.append(params)
-    predict_all = {}
-    for params in top_params:
-        strategy.fit(X_all[0], y_all[0], C=params['C'], gamma=params['gamma'], kernel=params['kernel'])
-        y_pred = strategy.predict(X_all[2])
-        predict_all[str(params)] = Metrics.all_classification_score(y_all[2], y_pred)
+    X, y, scaler = strategy.get_feature_target(index_name=r'sh000002', predict_day=5)
+    X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
+    
+    # cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
+    # top_params = []
+    # for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
+    #     params = cv_results_df[cv_results_df[top] == 1]['params'].values[0]
+    #     # print(params)
+    #     top_params.append(params)
+    # predict_all = {}
+    # for params in top_params:
+    #     strategy.fit(X_all[0], y_all[0], C=params['C'], gamma=params['gamma'], kernel=params['kernel'])
+    #     y_pred = strategy.predict(X_all[2])
+    #     predict_all[str(params)] = Metrics.all_classification_score(y_all[2], y_pred)

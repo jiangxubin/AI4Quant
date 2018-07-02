@@ -38,7 +38,7 @@ output_size = 1
 class Recurrent4Time(BaseStrategy.BaseStrategy):
     def get_feature_target(self, index_name=r'sz399001', predict_day=2)->tuple:
         """
-        Get X for feature and y for label when everydayy has multi features
+        Get X for feature and y for label when everyday has multi features
         predict_day: predict close price of t+N day
         :return: DataFrame of raw data
         """
@@ -49,7 +49,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
     def __build_model(self):
         """
-        Build the LSTM model for traning with keras when everydayy has multi features
+        Build the LSTM model for traning with keras when everyday has multi features
         :return: model
         """
         index_feature = Input(shape=(step_size, feature_size))
@@ -66,16 +66,17 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
     def fit(self, X: np.array, y: np.array, cell='lstm'):
         """
-        Train the LSTM model defined bove
+        Train the LSTM model defined above
         :param X: DataFrame of Feature
-        :param y: DataFrame of labelLSTM4Time-Keras.py
+        :param y: DataFrame of label
         :param cell: type of neuron cell,default lstm
-        :return: None
+        :return: History of training process
         """
         if cell == 'lstm':
             self.__build_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+            hist = self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
             # self.model.save("Daul-LSTM-Regression.h5")
+            return hist
             # self.model.save("ModelOutput/Daul-LSTM-Regression-Addtion-Features.h5")
             # plot_model(self.model, to_file='Dual-LSTM-Regression.png', show_shapes=True)
         # elif cell == 'rnn':

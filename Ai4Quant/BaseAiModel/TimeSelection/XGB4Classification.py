@@ -2,7 +2,7 @@ import xgboost as xgb
 from sklearn.tree import DecisionTreeClassifier
 import pandas as pd
 import numpy as np
-from utils.FeatureEngineering import FatureEngineering
+from utils.FeatureEngineering import FeatureTarget4ML
 from utils.RawData import RawData
 from utils.DataIO import DataIO
 from utils.Technical_Index import CalculateFeatures
@@ -19,7 +19,7 @@ class SVM4Classification:
         """
         raw_data = RawData.get_raw_data(r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y = FatureEngineering.multi_features_classification(tech_indexed_data)
+        X, y = FeatureTarget4ML.feature_target4svm_classification(tech_indexed_data)
         return X, y
 
     def __build_model(self, C, gamma, kernel):
