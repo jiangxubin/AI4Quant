@@ -16,16 +16,16 @@ feature_size = 17
 
 
 class SVM4Classification(BaseStrategy.BaseStrategy):
-    def get_feature_target(self, index_name=r'sh000001', predict_day=2):
+    def get_feature_target(self, index_name=r'sh000001', stepsize=10, predict_day=2, categories=5):
         """
         Prepare X(features matrix) and y(labels) for model training, validation, and test
         :return: X, y
         """
-        raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
+        raw_data = RawData.get_raw_data(index_name, ratio=True)
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(tech_indexed_data)
-        lb = LabelBinarizer()
-        y = lb.fit_transform(y)
+        X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(tech_indexed_data, step_size=stepsize, predict_day=predict_day, categories=categories)
+        # lb = LabelBinarizer()
+        # y = lb.fit_transform(y)
         return X, y, scaler
 
     def __build_model(self, C: float, gamma, kernel: str):
@@ -34,10 +34,12 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         :return:
         """
         if gamma is None:
-            clf = SVC(C=0.8, kernel='linear')
+            # clf = OneVsRestClassifier(SVC(C=0.8, kernel='linear'))
+            clf = SVC(C=0.8, kernel='linear', decision_function_shape='ovo')
             self.model = clf
         else:
-            clf = SVC(C=C, gamma=gamma, kernel=kernel)
+            # clf = OneVsRestClassifier(SVC(C=C, gamma=gamma, kernel=kernel))
+            clf = SVC(C=C, gamma=gamma, kernel=kernel, decision_function_shape='ovo ')
             self.model = clf
 
     def fit(self, X: np.array, y: np.array, C: float, gamma: float, kernel: str):
@@ -72,14 +74,16 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         #     {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.01, 0.03, 0.1, 0.3, 1, 3], 'kernel': ['rbf', 'sigmoid']}
         # ]
         param_grid = [
-            {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.1, 0.3, 1, 3, 10], 'kernel': ['rbf', 'sigmoid']}
+            {'C': [0.1, 0.3, 1, 3, 10], 'gamma': [0.1, 0.3, 1, 3, 10], 'kernel': ['rbf', 'sigmoid', 'poly']}
         ]
         if laebls == 'multiple':
+            clf = SVC(decision_function_shape='ovo')
             # https://stackoverflow.com/questions/26210471/scikit-learn-gridsearch-giving-valueerror-multiclass-format-is-not-supported
-            clf = GridSearchCV(OneVsRestClassifier(SVC()), param_grid=param_grid, cv=5, scoring=['roc_auc', 'f1', 'precision', 'accuracy'], refit=False,
+            clf = GridSearchCV(clf, param_grid=param_grid, cv=5, scoring=['accuracy'], refit=False,
                                return_train_score=True)
         else:
-            clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=['roc_auc', 'f1', 'precision', 'accuracy'], refit=False,
+            clf = SVC(decision_function_shape='ovo')
+            clf = GridSearchCV(clf, param_grid, cv=5, scoring=['accuracy'], refit=False,
                                return_train_score=True)
         clf.fit(X_train, y_train)
         cv_df = pd.DataFrame(clf.cv_results_)
@@ -100,7 +104,7 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         scores = ['roc_auc', 'f1', 'precision', 'accuracy']
         # for score in scores:
         # clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=score, return_train_score=True)
-        clf = GridSearchCV(SVC(), param_grid, cv=5, scoring=scores, return_train_score=True, refit=False)
+        clf = GridSearchCV(SVC(decision_function_shape='ovo'), param_grid, cv=5, scoring=scores, return_train_score=True, refit=False)
         clf.fit(X_train, y_train)
         # print("Best parameters set found on development set:")
         # print(clf.best_params_)
@@ -116,20 +120,24 @@ class SVM4Classification(BaseStrategy.BaseStrategy):
         # y_true, y_pred = y_test, clf.best_estimator_.predict(X_test)
         # print(classification_report(y_true, y_pred))
         return cv_df
+# https://datascience.stackexchange.com/questions/28742/how-to-structure-data-and-model-for-multiclass-classification-in-svm
 
 
 if __name__ == "__main__":
     strategy = SVM4Classification()
-    X, y, scaler = strategy.get_feature_target(index_name=r'sh000002', predict_day=5)
+    X, y, scaler = strategy.get_feature_target(index_name=r'sh000002', stepsize=10, predict_day=2, categories=5)
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
-    strategy.fit(X_train, y_train)
-    y_pred = strategy.predict(X_test)
-    acc = accuracy_score(y_test, y_pred)
-    prc = precision_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
-    # cv_results_df = strategy.tune_hyperparams(X_all[0], y_all[0], X_all[2], y_all[2])
+    strategy.fit(X_train, y_train, C=10, gamma=1, kernel='linear')
+    y_pred = strategy.model.decision_function(X_test)
+    y_pred_1 = strategy.model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred_1)
+    prc = precision_score(y_test, y_pred_1, average='micro')
+    prc_1 = precision_score(y_test, y_pred_1, average=None)
+    f1 = f1_score(y_test, y_pred_1,  average=None)
+    f1_1 = f1_score(y_test, y_pred_1,  average='micro')
+    cv_results_df = strategy.tune_hyperparams(X_train, y_train, X_test, y_test)
     # top_params = []
     # for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
     #     params = cv_results_df[cv_results_df[top] == 1]['params'].values[0]

@@ -16,7 +16,7 @@ project_path = r'E:\\DX'
 
 class RawData:
     @staticmethod
-    def get_raw_data(index_name=None, path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04', ratio=False ):
+    def get_raw_data(index_name=None, path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04', ratio=True ):
         """
         Load index data and produce Input data
         :param index_name:specified index to query

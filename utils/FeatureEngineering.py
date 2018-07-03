@@ -129,10 +129,10 @@ class FeatureTarget4ML:
             scaled_item = scaler.transform(item)
             scaled_features.append(scaled_item)
             scalers.append(scaler)
-        X = np.array(scaled_features)
-        X = X.flatten()
+        X = np.array([item.flatten() for item in scaled_features])
+        # X = np.array(scaled_features)
         labels_oh = multi_categorical_value(labels, categories)
-        y = labels_oh
+        y = np.ravel(np.dot(labels_oh, np.array([0, 1, 2, 3, 4]).reshape(-1, 1))).astype(int)
         return X, y, scalers
 
 
@@ -223,4 +223,5 @@ if __name__ == "__main__":
     # X, y, scalers = FeatureTarget4DL.feature_target4lstm_classification(technical_indexed_data, step_size=30, predict_day=3)
     # diff, cha = Auxiliary.test_pct_diff(technical_indexed_data)
     # X, y, scaler = FeatureTarget4ML.feature_target4svm_classification(technical_indexed_data, predict_day=2)
-    X, y, X_sc, y_sc = FeatureTarget4DL.feature_target4lstm_ratio_regression(technical_indexed_data, step_size=30, predict_day=2)
+    # X, y, X_sc, y_sc = FeatureTarget4DL.feature_target4lstm_ratio_regression(technical_indexed_data, step_size=30, predict_day=2)
+    X, y, sc = FeatureTarget4ML.feature_target4svm_classification(technical_indexed_data, step_size=10, predict_day=2, categories=5)
