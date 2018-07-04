@@ -5,7 +5,7 @@ from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
 import pandas as pd
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 from torch import optim, nn
 from torch.nn import functional as F

@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_s
 import matplotlib.pyplot as plt
 import pandas as pd
 from keras.utils import plot_model
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 
 # parser = argparse.ArgumentParser()
@@ -150,7 +150,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
 
 if __name__ == "__main__":
     strategy = Recurrent4Time()
-    X, y, scalers, origin_y = strategy.get_feature_target(predict_day=5)
+    X, y, scalers, origin_y = strategy.get_feature_target(predict_day=1)
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.5, validation_size=0)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], X_all[2]

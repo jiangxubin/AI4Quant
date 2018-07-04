@@ -6,7 +6,7 @@ Convert a float to categorical
 import numpy as np
 import pandas as pd
 from utils.RawData import RawData
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 
 def binary_categorical(x) -> int:
     if x > 0:

@@ -8,8 +8,10 @@ from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_s
 import matplotlib.pyplot as plt
 import pandas as pd
 from keras.utils import plot_model
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
+from utils.float_to_categorical import multi_categorical_value
+from keras.utils import to_categorical
 
 
 # parser = argparse.ArgumentParser()
@@ -27,11 +29,11 @@ hidden_units_2 = 128
 step_size = 30
 # hidden_units = args.hidden_units
 # feature_size = 7
-feature_size = 16
+feature_size = 17
 # feature_size = args.feature_size
 dropout_ratio = 0.5
 # dropout_ratio = args.dropout_ratio
-epochs = 50
+epochs = 20
 # epochs = args.epochs
 output_size = 5
 
@@ -44,7 +46,7 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         """
         raw_data = RawData.get_raw_data(index_name, r'E:\DX\HugeData\Index\test.csv', r'E:\DX\HugeData\Index\nature_columns.csv')
         tech_indexed_data = CalculateFeatures.get_all_technical_index(raw_data)
-        X, y, scalers = FeatureTarget4DL.feature_target4lstm_classification(tech_indexed_data, step_size=step_size,predict_day=predict_day, categories=output_size)
+        X, y, scalers = FeatureTarget4DL.feature_target4lstm_ratio_classification(tech_indexed_data, step_size=step_size,predict_day=predict_day, categories=output_size)
         return X, y, scalers
 
     def __build_model(self):
@@ -91,7 +93,7 @@ if __name__ == "__main__":
     # 初始化模型对象
     strategy = Recurrent4Time()
     # 制定股指名称，预测滞后天数，获取指定股指的特征和标签 以及标签的缩放特征
-    X, y, scalers = strategy.get_feature_target(r'sh000002')
+    X, y, scalers = strategy.get_feature_target(r'sh000002', predict_day=1)
     # 将获得的特征和标签划分为训练集，验证集，测试集
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
@@ -102,5 +104,11 @@ if __name__ == "__main__":
     evaluation_results = strategy.evaluation(X_val, y_val)
     # 在测试集上进行预测
     predicted = strategy.model.predict(X_test, batch_size=batch_size)
-
+    predicted = [np.argmax(predicted[i, :]) for i in range(predicted.shape[0])]
+    predicted = to_categorical(predicted, 5)
+    acc = accuracy_score(y_test, predicted)
+    f1 = f1_score(y_test, predicted, average='micro')
+    f1_1 = f1_score(y_test, predicted, average='macro')
+    prc = precision_score(y_test, predicted, average='micro')
+    prc_1 = precision_score(y_test, predicted, average='macro')
 

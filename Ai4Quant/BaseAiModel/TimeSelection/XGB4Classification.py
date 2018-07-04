@@ -5,7 +5,7 @@ import numpy as np
 from utils.FeatureEngineering import FeatureTarget4ML
 from utils.RawData import RawData
 from utils.DataIO import DataIO
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import roc_curve, auc, roc_auc_score, f1_score, classification_report
 import matplotlib.pyplot as plt

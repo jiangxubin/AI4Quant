@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from utils.FeatureEngineering import FeatureTarget4ML, Auxiliary
 from utils.RawData import RawData
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     X_all, y_all = Auxiliary.train_val_test_split(X, y, train_size=0.7, validation_size=0.2)
     X_train, X_val, X_test = X_all[0], X_all[1], X_all[2]
     y_train, y_val, y_test = y_all[0], y_all[1], y_all[2]
-    strategy.fit(X_train, y_train, C=10, gamma=1, kernel='linear')
+    strategy.fit(X_train, y_train, C=1, gamma=0.8, kernel='linear')
     y_pred = strategy.model.decision_function(X_test)
     y_pred_1 = strategy.model.predict(X_test)
     acc = accuracy_score(y_test, y_pred_1)
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     prc_1 = precision_score(y_test, y_pred_1, average=None)
     f1 = f1_score(y_test, y_pred_1,  average=None)
     f1_1 = f1_score(y_test, y_pred_1,  average='micro')
-    cv_results_df = strategy.tune_hyperparams(X_train, y_train, X_test, y_test)
+    # cv_results_df = strategy.tune_hyperparams(X_train, y_train, X_test, y_test)
     # top_params = []
     # for top in cv_results_df.filter(regex=r'rank', axis=1).columns:
     #     params = cv_results_df[cv_results_df[top] == 1]['params'].values[0]

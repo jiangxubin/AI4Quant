@@ -3,7 +3,7 @@ import math
 import numpy as np
 from keras.utils import to_categorical
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
-from utils import Technical_Index
+from utils import TechnicalIndex
 from sklearn.decomposition import PCA
 from utils.float_to_categorical import multi_categorical_pct, multi_categorical_value
 
@@ -73,7 +73,7 @@ class FeatureTarget4DL:
         return X, y, feature_scalers, target_scaler
 
     @staticmethod
-    def feature_target4lstm_classification(raw_data, step_size=30, predict_day=2, categories=5):
+    def feature_target4lstm_ratio_classification(raw_data, step_size=30, predict_day=2, categories=5):
         """
         对多FEATURES模型进行特征/target分离
         :param raw_data: 原始数据
@@ -218,7 +218,7 @@ class Auxiliary:
 
 if __name__ == "__main__":
     raw_data = RawData.RawData.get_raw_data(index_name=r'sh000002', ratio=True)
-    technical_indexed_data = Technical_Index.CalculateFeatures.get_all_technical_index(raw_data)
+    technical_indexed_data = TechnicalIndex.CalculateFeatures.get_all_technical_index(raw_data)
     # X, y, scalers, origin_y = FeatureTarget4DL.feature_target4lstm_regression(technical_indexed_data, step_size=30, predict_day=1)
     # X, y, scalers = FeatureTarget4DL.feature_target4lstm_classification(technical_indexed_data, step_size=30, predict_day=3)
     # diff, cha = Auxiliary.test_pct_diff(technical_indexed_data)

@@ -5,7 +5,7 @@ from utils.FeatureEngineering import FeatureTarget4DL, Auxiliary
 from utils.RawData import RawData
 from sklearn.metrics import roc_auc_score, f1_score, accuracy_score, precision_score
 import matplotlib.pyplot as plt
-from utils.Technical_Index import CalculateFeatures
+from utils.TechnicalIndex import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
 from utils.float_to_categorical import multi_categorical_value
 
@@ -28,7 +28,7 @@ feature_size = 16
 # feature_size = args.feature_size
 dropout_ratio = 0.5
 # dropout_ratio = args.dropout_ratio
-epochs = 20
+epochs = 50
 # epochs = args.epochs
 output_size = 1
 
@@ -116,6 +116,8 @@ if __name__ == "__main__":
     predicted_results = strategy.predict(X_test)
     predicted_category = multi_categorical_value(predicted_results)
     real_category = multi_categorical_value(y_test)
+    mul = np.multiply(y_test, predicted_results)
+    updown_ratio = len(mul[mul>0])/y_test.shape[0]
     acc = accuracy_score(real_category, predicted_category)
     f1 = f1_score(real_category, predicted_category, average='micro')
     f1_1 = f1_score(real_category, predicted_category, average='macro')
