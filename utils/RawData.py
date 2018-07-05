@@ -16,7 +16,7 @@ project_path = r'E:\\DX'
 
 class RawData:
     @staticmethod
-    def get_raw_data(index_name=None, path=r'E:\DX\HugeData\Index\test.csv', columns_path=r'E:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04', ratio=True ):
+    def get_raw_data(index_name=None, path=r'G:\DX\HugeData\Index\test.csv', columns_path=r'G:\DX\HugeData\Index\nature_columns.csv', latest_date='2017-12-04', ratio=True ):
         """
         Load index data and produce Input data
         :param index_name:specified index to query
@@ -30,10 +30,11 @@ class RawData:
         # encoding = r'GB2312'
         df = pd.read_csv(path, sep=r',', encoding=encoding_1, index_col=False, header=None)
         # encoding_2 = DataIO.DataIO.detect_encode_style(columns_path)
-        encoding_2 = r'GB2312'
+        encoding_2 = r'UTF-8'
         col = pd.read_csv(columns_path, sep=r',', encoding=encoding_2, index_col=[0], header=[0])
         # df.columns = pd.MultiIndex.from_arrays((col['Feature'], col['Comment']), names=['Eng', 'Chn'])
-        df.columns = col['Feature']
+        # df.columns = col['Feature']
+        df.columns = col['Field']
         df.index = df.iloc[:, 1]
         date_judge = df.index.get_loc(latest_date)
         index_date_index = list(compress(np.arange(len(date_judge)), date_judge))

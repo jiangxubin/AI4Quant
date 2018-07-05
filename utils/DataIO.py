@@ -76,8 +76,9 @@ class DataIO:
 # 2. https://stackoverflow.com/questions/40950310/strip-trim-all-strings-of-a-dataframe
 # 3. https://stackoverflow.com/questions/19798153/difference-between-map-applymap-and-apply-methods-in-pandas
 
+
 if __name__ == "__main__":
-    df_col = pd.read_csv(r'E:\DX\HugeData\Index\nature_columns.csv', encoding=r'GB2312')
+    df_col = pd.read_csv(r'G:\DX\HugeData\Index\nature_columns.csv', encoding=r'GB2312')
     df_o = DataIO.strip_df(df_col)
     df_o_1 = DataIO.strip_df_1(df_col)
 

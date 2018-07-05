@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from utils.TechnicalIndex import CalculateFeatures
 from Ai4Quant.BaseAiModel.TimeSelection import BaseStrategy
-from torch import optim, nn
+from torch import optim, nn, tensor
 from torch.nn import functional as F
 import torch
 
@@ -54,28 +54,27 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         Build the LSTM model for traning with keras when everydayy has multi features
         :return: model
         """
-        stock_feature = Input(shape=(step_size, feature_size))
-        X = LSTM(hidden_units_1, return_sequences=True)(stock_feature)
-        # 如果要堆叠LSTM, return_sequences必须设置为True，否则只有时间刻度最后的那个输出，不足以传递给下一层LSTM层
-        X = Dropout(rate=dropout_ratio)(X)
-        X = LSTM(hidden_units_2, return_sequences=False)(X)
-        X = Dropout(rate=dropout_ratio)(X)
-        X = Dense(output_size)(X)
-        y = Activation('linear')(X)
+        self.model = Model()
 
-        self.model = Model(inputs=[stock_feature], outputs=[y])
-        self.model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape', 'cosine'])
-
-    def fit(self, X: np.array, y: np.array, cell='lstm'):
+    def fit(self, X: np.array, y: np.array):
         """
         Train the LSTM model defined bove
         :param X: DataFrame of Feature
         :param y: DataFrame of labelLSTM4Time-Keras.py
         :return: None
         """
-        if cell == 'lstm':
-            self.__build_model()
-            self.model.fit(X, y, batch_size=batch_size, epochs=epochs)
+        # Define loss function and optimizer
+        loss = nn.MSELoss()
+        optimizer = optim.RMSprop(params=self.model.parameters(), lr=0.1)
+        # Train the model
+        for epoch in range(epochs):
+            permutation = torch.randperm(X.shape[0])
+            for i in range(0, X.shape[0], batch_size):
+                optimizer.zero_grad()
+                indices = permutation[i:i+batch_size]
+                batch_X, batch_y = X[indices, :, :], y[indices]
+                predicted = self.model(batch_X)
+
 
     def evaluation(self, X_val:np.array, y_val:np.array, batch_size=32):
         """
@@ -132,24 +131,32 @@ class Recurrent4Time(BaseStrategy.BaseStrategy):
         return pred_up_down, real_up_down
 
 
-class Net(nn.Module):
+class Model(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(Model, self).__init__()
         self.bn1 = nn.BatchNorm1d()
-        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
-        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, dropout_ratio=dropout_ratio, batch_first=True)
+        self.lstm1 = nn.LSTM(input_size=feature_size, hidden_size=hidden_units_1, num_layers=1, batch_first=True)
+        self.dropout1 = nn.Dropout(dropout_ratio)
+        self.lstm2 = nn.LSTM(input_size=hidden_units_1, hidden_size=hidden_units_2, num_layers=1, batch_first=True)
+        self.dropout2 = nn.Dropout(dropout_ratio)
         self.fc = nn.Linear(in_features=hidden_units_2, out_features=output_size)
+        self.hidden1 = self.init_hidden(1, batch_size, hidden_units_1)
+        self.hidden2 = self.init_hidden(1, batch_size, hidden_units_2)
 
-    def forward(self, *input):
-        # Set initial hidden and cell states for lstm1
-        h0_1 = torch.zeros(1, batch_size, hidden_units_1)
-        c0_1 = torch.zeros(1, batch_size, hidden_units_1)
-        # Set initial hidden and cell states for lstm2
-        h0_2 = torch.zeros(1, batch_size, hidden_units_2)
-        c0_2 = torch.zeros(1, batch_size, hidden_units_2)
-        #
+    def init_hidden(self, num_layers, batch_size, num_hidden_units):
+        # Set initial hidden and cell states for lstm layer
+        h0 = torch.rand(1, batch_size, hidden_units_1, requires_grad=True)
+        c0 = torch.rand(1, batch_size, hidden_units_1, requires_grad=True)
+        return h0, c0
 
-
+    def forward(self, feature_matrix):
+        x = self.bn1(feature_matrix)
+        output_1, self.hidden1 = self.lstm1(x, self.hidden1)
+        output_1 = self.dropout1(output_1)
+        output_2, self.hidden2 = self.lstm2(output_1, self.hidden2)
+        output_2 = self.dropout2(output_2)
+        predicted = self.fc(output_2[-1, :, :])
+        return predicted
 
 
 if __name__ == "__main__":
@@ -159,10 +166,10 @@ if __name__ == "__main__":
     X_train, X_val = X_all[0], X_all[1]
     y_train, y_val = y_all[0], y_all[1]
     strategy.fit(X_train, y_train, cell='lstm')
-    evaluation_results = strategy.evaluation(X_val, y_val)
-    predicted_updown, real_updown = strategy.plot_contract(strategy.model, X, y, scalers)
-    predicted_all, real_all = Auxiliary.train_val_test_split(predicted_updown, real_updown)
-    total_score = Metrics.all_classification_score(real_updown, predicted_updown)
-    train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
-    test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])
+    # evaluation_results = strategy.evaluation(X_val, y_val)
+    # predicted_updown, real_updown = strategy.plot_contract(strategy.model, X, y, scalers)
+    # predicted_all, real_all = Auxiliary.train_val_test_split(predicted_updown, real_updown)
+    # total_score = Metrics.all_classification_score(real_updown, predicted_updown)
+    # train_score = Metrics.all_classification_score(real_all[0], predicted_all[0])
+    # test_score = Metrics.all_classification_score(real_all[2], predicted_all[2])
 
